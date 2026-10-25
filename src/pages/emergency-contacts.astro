@@ -2,7 +2,7 @@
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
-import { EMERGENCY_NUMBER, POISON_INFORMATION_NUMBER } from '../consts';
+import { EMERGENCY_NUMBER, POISON_INFORMATION_NUMBER, withBase } from '../consts';
 
 /* ---------- Helpers ---------- */
 const tel = (n: string) => `tel:${n.replace(/[^\d+]/g, '')}`;
@@ -171,7 +171,7 @@ const sections = [
 					<p class="intro no-print">
 						Use our chat to describe what happened. It asks a few questions, then sends your enquiry to a pharmacist.
 					</p>
-					<a class="btn btn-violet no-print" href="/chat">Open the chat</a>
+					<a class="btn btn-violet no-print" href={withBase('/chat')}>Open the chat</a>
 					<p class="small">
 						Numbers are compiled from public listings and can change. If one does not connect, try another.
 					</p>

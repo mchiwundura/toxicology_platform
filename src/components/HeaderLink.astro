@@ -4,12 +4,16 @@ import type { HTMLAttributes } from 'astro/types';
 type Props = HTMLAttributes<'a'>;
 
 const { href, class: className, ...props } = Astro.props;
-const pathname = Astro.url.pathname.replace(import.meta.env.BASE_URL, '');
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+// Strip the configured `base` so `href` can stay root-relative.
+const pathname = Astro.url.pathname.slice(base.length) || '/';
 const subpath = pathname.match(/[^\/]+/g);
 const isActive = href === pathname || href === '/' + (subpath?.[0] || '');
+// Prepend the configured `base` so nav links work on subpath deployments.
+const url = `${base}${href}`;
 ---
 
-<a href={href} class:list={[className, { active: isActive }]} {...props}>
+<a href={url} class:list={[className, { active: isActive }]} {...props}>
 	<slot />
 </a>
 <style>

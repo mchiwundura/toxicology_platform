@@ -2,6 +2,7 @@
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
+import { withBase } from '../consts';
 
 const description =
 	'Who we are, what we do, and the pharmacists behind the Drug and Toxicology Information Service at the University of Zimbabwe.';
@@ -122,8 +123,8 @@ const team = [
 						evidence-based answers about medicines, side effects and poisoning.
 					</p>
 					<div class="actions">
-						<a class="btn btn-violet" href="/chat">Ask a question</a>
-						<a class="btn btn-outline" href="/emergency-contacts">Emergency contacts</a>
+						<a class="btn btn-violet" href={withBase('/chat')}>Ask a question</a>
+						<a class="btn btn-outline" href={withBase('/emergency-contacts')}>Emergency contacts</a>
 					</div>
 				</div>
 			</section>
@@ -257,8 +258,8 @@ const team = [
 							</p>
 						</div>
 						<div class="actions">
-							<a class="btn btn-primary" href="/chat">Ask a question</a>
-							<a class="btn btn-outline" href="/emergency-contacts">Emergency contacts</a>
+							<a class="btn btn-primary" href={withBase('/chat')}>Ask a question</a>
+							<a class="btn btn-outline" href={withBase('/emergency-contacts')}>Emergency contacts</a>
 						</div>
 					</div>
 				</div>

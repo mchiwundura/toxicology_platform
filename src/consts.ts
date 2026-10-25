@@ -1,6 +1,11 @@
 // Place any global data in this file.
 // You can import this data from anywhere in your site by using the `import` keyword.
 
+// Prefix a root-relative path with the configured `base` (e.g. '/toxicology_platform'),
+// so internal links keep working when the site is served from a subpath.
+export const withBase = (path: string) =>
+	`${import.meta.env.BASE_URL.replace(/\/$/, '')}${path}`;
+
 export const SITE_TITLE = 'Drug and Toxicology Information Service (DATIS)';
 export const SITE_DESCRIPTION =
 	'Free, trusted drug and poison information for the public and healthcare professionals in Zimbabwe.';

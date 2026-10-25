@@ -4,18 +4,18 @@ import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
-import { EMERGENCY_NUMBER, SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { EMERGENCY_NUMBER, SITE_DESCRIPTION, SITE_TITLE, withBase } from '../consts';
 
 /* ---------- Things to fill in ---------- */
-const NEWSLETTER_URL = '/newsletter'; // TODO: signup page or external link
+const NEWSLETTER_URL = withBase('/newsletter'); // TODO: signup page or external link
 const WHATSAPP_URL = ''; // optional, leave empty to hide
 
 /* Placeholder images. Swap each for your own photo:
-   put the file in /public/images/ and use '/images/your-file.jpg' (add your `base` if you set one). */
+   put the file in /public/images/ and use withBase('/images/your-file.jpg'). */
 const images = {
-hero: '/images/thinker_woman.png', // person "thinking" the questions
-pharmacist: '/images/pharmacist.png',
-thinker: '/images/thinker_man.png', // person "thinking" the FAQs
+hero: withBase('/images/thinker_woman.png'), // person "thinking" the questions
+pharmacist: withBase('/images/pharmacist.png'),
+thinker: withBase('/images/thinker_man.png'), // person "thinking" the FAQs
 };
 
 // Stats: set `value` to a number or text. Leave null to show a "Coming soon" placeholder.
@@ -86,7 +86,7 @@ const faqs = [
 				<p>
 					<strong>Think someone has been poisoned?</strong> Call <a href={`tel:${EMERGENCY_NUMBER.replace(/\s/g, '')}`}>{EMERGENCY_NUMBER}</a> or go to the nearest hospital.
 				</p>
-				<a class="emergency-link" href="/emergency-contacts">All emergency contacts</a>
+				<a class="emergency-link" href={withBase('/emergency-contacts')}>All emergency contacts</a>
 			</div>
 		</div>
 
@@ -101,15 +101,15 @@ const faqs = [
 								The Drug and Toxicology Information Service gives free, trusted answers to the public and to healthcare professionals across Zimbabwe.
 							</p>
 							<div class="hero-actions">
-								<a class="btn btn-primary" href="/chat">Ask a question</a>
-								<a class="btn btn-outline-light" href="/emergency-contacts">Emergency contacts</a>
+								<a class="btn btn-primary" href={withBase('/chat')}>Ask a question</a>
+								<a class="btn btn-outline-light" href={withBase('/emergency-contacts')}>Emergency contacts</a>
 							</div>
 						</div>
 
 						<div class="thinker" aria-label="Questions people often ask us">
 							<ul class="bubbles">
 								{questions.map((q) => (
-									<li><a href="/chat">{q}</a></li>
+									<li><a href={withBase('/chat')}>{q}</a></li>
 								))}
 							</ul>
 							<div class="trail" aria-hidden="true"><span></span><span></span></div>
@@ -175,13 +175,13 @@ const faqs = [
 				<div class="wrap">
 					<div class="section-head">
 						<h2>{showingUpcoming ? 'Upcoming events' : 'Recent sessions'}</h2>
-						<a href="/continuous-education">Browse all continuing education</a>
+						<a href={withBase('/ce')}>Browse all continuing education</a>
 					</div>
 					{!showingUpcoming && <p class="note">No new sessions are scheduled yet. Here is what you may have missed.</p>}
 					<ul class="cards">
 						{events.map((e) => (
 							<li>
-								<a class="card" href={`/continuous-education/${e.id}/`}>
+								<a class="card" href={withBase(`/ce/${e.id}/`)}>
 									<div class="card-media poster">
 										{e.data.heroImage ? (
 											<Image src={e.data.heroImage} alt="" width={640} height={640} />
@@ -209,12 +209,12 @@ const faqs = [
 				<div class="wrap">
 					<div class="section-head">
 						<h2>Latest from the blog</h2>
-						<a href="/blog">Read all articles</a>
+						<a href={withBase('/blog')}>Read all articles</a>
 					</div>
 					<ul class="cards">
 						{posts.map((p) => (
 							<li>
-								<a class="card" href={`/blog/${p.id}/`}>
+								<a class="card" href={withBase(`/blog/${p.id}/`)}>
 									<div class="card-media wide">
 										{p.data.heroImage ? (
 											<Image src={p.data.heroImage} alt="" width={720} height={450} />
@@ -265,7 +265,7 @@ const faqs = [
 				<div class="wrap">
 					<div class="closing-panel">
 						<h2>Not sure where to start?</h2>
-						<a class="btn btn-primary" href="/chat">Ask a question</a>
+						<a class="btn btn-primary" href={withBase('/chat')}>Ask a question</a>
 						{WHATSAPP_URL && <a class="btn btn-outline-light" href={WHATSAPP_URL}>Message us on WhatsApp</a>}
 					</div>
 				</div>
