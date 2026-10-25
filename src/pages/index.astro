@@ -1,8 +1,75 @@
 ---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { EMERGENCY_NUMBER, SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+
+/* ---------- Things to fill in ---------- */
+const NEWSLETTER_URL = '/newsletter'; // TODO: signup page or external link
+const WHATSAPP_URL = ''; // optional, leave empty to hide
+
+/* Placeholder images. Swap each for your own photo:
+   put the file in /public/images/ and use '/images/your-file.jpg' (add your `base` if you set one). */
+const images = {
+hero: '/images/thinker_woman.png', // person "thinking" the questions
+pharmacist: '/images/pharmacist.png',
+thinker: '/images/thinker_man.png', // person "thinking" the FAQs
+};
+
+// Stats: set `value` to a number or text. Leave null to show a "Coming soon" placeholder.
+const stats = [
+	{ value: 18, label: 'Enquiries answered this year' },
+	{ value: 66, label: 'Average response time' },
+	{ value: 8, label: 'Years of service' },
+	{ value: 54, label: 'Continuing education sessions held' },
+	{ value: 122, label: 'Healthcare professionals reached' },
+];
+
+/* ---------- Content ---------- */
+const now = new Date();
+const ce = (await getCollection('ce')).sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf());
+const upcoming = ce.filter((e) => e.data.date >= now).slice(0, 3);
+// If nothing is scheduled, show the most recent past sessions so the section is never empty.
+const showingUpcoming = upcoming.length > 0;
+const events = showingUpcoming ? upcoming : ce.filter((e) => e.data.date < now).reverse().slice(0, 3);
+
+const posts = (await getCollection('blog'))
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+	.slice(0, 3);
+
+const fmt = (d: Date) =>
+	d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+const day = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric' });
+const month = (d: Date) => d.toLocaleDateString('en-GB', { month: 'short' });
+
+const questions = [
+	'My child swallowed a tablet. What should I do?',
+	'Can I take these two medicines together?',
+	'Is this safe while I’m breastfeeding?',
+	'I think my medicine caused a rash.',
+];
+
+const steps = [
+	{ title: 'Ask', text: 'Chat with our assistant about a medicine, a poison or a side effect.' },
+	{ title: 'We review', text: 'Your question goes straight to a pharmacist at the Information Service.' },
+	{ title: 'You get an answer', text: 'We reply with clear, evidence-based information.' },
+];
+
+const services = [
+	{ title: 'Drug information', text: 'Doses, interactions, safe use in pregnancy and with other conditions.' },
+	{ title: 'Poison information', text: 'What to do after swallowing, inhaling or touching something harmful.' },
+	{ title: 'Side effect reporting', text: 'Tell us about an unexpected reaction so others can be protected.' },
+	{ title: 'Research support', text: 'Literature and evidence summaries for clinicians and researchers.' },
+];
+
+const faqs = [
+	{ q: 'Who can ask a question?', a: 'Anyone. Members of the public, nurses, doctors, pharmacists and researchers all use the service.' },
+	{ q: 'Is the service free?', a: 'Replace with your actual policy.' },
+	{ q: 'How fast will I get an answer?', a: 'Replace with your actual response times and hours.' },
+	{ q: 'Is this a replacement for emergency care?', a: 'No. If someone is unconscious, struggling to breathe or having a seizure, go to the nearest hospital or call emergency services straight away.' },
+];
 ---
 
 <!doctype html>
@@ -11,39 +78,646 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 	</head>
 	<body>
+		<a class="skip" href="#main">Skip to content</a>
 		<Header />
-		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This template
-				serves as a lightweight, minimally-styled starting point for anyone looking to build a personal
-				website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to
-				<a href="https://docs.astro.build/">read the docs</a>
-				or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out
-				<a href="https://github.com/Charca/astro-blog-template">astro-blog-template</a>
-				by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
+
+		<div class="emergency">
+			<div class="wrap emergency-inner">
+				<p>
+					<strong>Think someone has been poisoned?</strong> Call <a href={`tel:${EMERGENCY_NUMBER.replace(/\s/g, '')}`}>{EMERGENCY_NUMBER}</a> or go to the nearest hospital.
+				</p>
+				<a class="emergency-link" href="/emergency-contacts">All emergency contacts</a>
+			</div>
+		</div>
+
+		<main id="main">
+			<!-- Hero: contained navy panel -->
+			<section class="hero">
+				<div class="wrap">
+					<div class="hero-panel">
+						<div class="hero-text">
+							<h1>Questions about medicines or poisons? Ask us.</h1>
+							<p class="lead">
+								The Drug and Toxicology Information Service gives free, trusted answers to the public and to healthcare professionals across Zimbabwe.
+							</p>
+							<div class="hero-actions">
+								<a class="btn btn-primary" href="/chat">Ask a question</a>
+								<a class="btn btn-outline-light" href="/emergency-contacts">Emergency contacts</a>
+							</div>
+						</div>
+
+						<div class="thinker" aria-label="Questions people often ask us">
+							<ul class="bubbles">
+								{questions.map((q) => (
+									<li><a href="/chat">{q}</a></li>
+								))}
+							</ul>
+							<div class="trail" aria-hidden="true"><span></span><span></span></div>
+							<img class="thinker-img" src={images.hero} alt="" width="280" height="340" />
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- Stats -->
+			<section class="stats" aria-labelledby="stats-h">
+				<div class="wrap">
+					<h2 id="stats-h" class="sr-only">Our service in numbers</h2>
+					<dl class="stat-row">
+						{stats.map((s) => (
+							<div class:list={['stat', { pending: s.value === null }]}>
+								<dd>{s.value ?? 'Coming soon'}</dd>
+								<dt>{s.label}</dt>
+							</div>
+						))}
+					</dl>
+				</div>
+			</section>
+
+			<!-- How it works: steps in a column, image at the side -->
+			<section class="section">
+				<div class="wrap split">
+					<div>
+						<h2>How it works</h2>
+						<ol class="steps">
+							{steps.map((s, i) => (
+								<li>
+									<span class="step-n" aria-hidden="true">{i + 1}</span>
+									<div>
+										<h3>{s.title}</h3>
+										<p>{s.text}</p>
+									</div>
+								</li>
+							))}
+						</ol>
+					</div>
+					<img class="side-img" src={images.pharmacist} alt="A pharmacist researching an answer on a computer" width="720" height="860" loading="lazy" />
+				</div>
+			</section>
+
+			<!-- Services -->
+			<section class="section tint">
+				<div class="wrap">
+					<h2>What we can help with</h2>
+					<div class="services">
+						{services.map((s) => (
+							<div class="service">
+								<h3>{s.title}</h3>
+								<p>{s.text}</p>
+							</div>
+						))}
+					</div>
+				</div>
+			</section>
+
+			<!-- Events -->
+			<section class="section" id="events">
+				<div class="wrap">
+					<div class="section-head">
+						<h2>{showingUpcoming ? 'Upcoming events' : 'Recent sessions'}</h2>
+						<a href="/continuous-education">Browse all continuing education</a>
+					</div>
+					{!showingUpcoming && <p class="note">No new sessions are scheduled yet. Here is what you may have missed.</p>}
+					<ul class="cards">
+						{events.map((e) => (
+							<li>
+								<a class="card" href={`/continuous-education/${e.id}/`}>
+									<div class="card-media poster">
+										{e.data.heroImage ? (
+											<Image src={e.data.heroImage} alt="" width={640} height={640} />
+										) : (
+											<div class="ph"></div>
+										)}
+										<time class="badge" datetime={e.data.date.toISOString()}>
+											<span class="d">{day(e.data.date)}</span>
+											<span class="m">{month(e.data.date)}</span>
+										</time>
+									</div>
+									<div class="card-body">
+										<h3>{e.data.title}</h3>
+										{e.data.presenter && <p class="meta">{e.data.presenter}</p>}
+									</div>
+								</a>
+							</li>
+						))}
+					</ul>
+				</div>
+			</section>
+
+			<!-- Blog + newsletter -->
+			<section class="section tint">
+				<div class="wrap">
+					<div class="section-head">
+						<h2>Latest from the blog</h2>
+						<a href="/blog">Read all articles</a>
+					</div>
+					<ul class="cards">
+						{posts.map((p) => (
+							<li>
+								<a class="card" href={`/blog/${p.id}/`}>
+									<div class="card-media wide">
+										{p.data.heroImage ? (
+											<Image src={p.data.heroImage} alt="" width={720} height={450} />
+										) : (
+											<div class="ph"></div>
+										)}
+									</div>
+									<div class="card-body">
+										<p class="meta">{fmt(p.data.pubDate)}</p>
+										<h3>{p.data.title}</h3>
+										<p class="excerpt">{p.data.description}</p>
+									</div>
+								</a>
+							</li>
+						))}
+					</ul>
+
+					<div class="newsletter">
+						<div>
+							<h2>Our newsletter</h2>
+							<p>Medicine safety updates and upcoming sessions, sent to your inbox.</p>
+						</div>
+						<a class="btn btn-primary" href={NEWSLETTER_URL}>Subscribe</a>
+					</div>
+				</div>
+			</section>
+
+			<!-- FAQ: image on the left this time -->
+			<section class="section">
+				<div class="wrap split flip">
+					<img class="side-img" src={images.thinker} alt="" width="720" height="860" loading="lazy" />
+					<div>
+						<h2>Common questions</h2>
+						<div class="faq">
+							{faqs.map((f) => (
+								<details>
+									<summary>{f.q}</summary>
+									<p>{f.a}</p>
+								</details>
+							))}
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- Closing call: contained navy panel -->
+			<section class="closing">
+				<div class="wrap">
+					<div class="closing-panel">
+						<h2>Not sure where to start?</h2>
+						<a class="btn btn-primary" href="/chat">Ask a question</a>
+						{WHATSAPP_URL && <a class="btn btn-outline-light" href={WHATSAPP_URL}>Message us on WhatsApp</a>}
+					</div>
+				</div>
+			</section>
 		</main>
+
 		<Footer />
 	</body>
 </html>
+
+<style>
+	.skip {
+		position: absolute;
+		left: -999px;
+		top: 0;
+		background: var(--lime);
+		color: var(--indigo-deep);
+		padding: 0.6rem 1rem;
+		z-index: 100;
+	}
+	.skip:focus {
+		left: 0;
+	}
+
+	/* Emergency strip */
+	.emergency {
+		background: var(--emergency);
+		color: #fff;
+		font-size: 0.95rem;
+	}
+	.emergency-inner {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.25rem 1.5rem;
+		justify-content: space-between;
+		align-items: center;
+		padding: 0.6rem 0;
+	}
+	.emergency p {
+		margin: 0;
+		max-width: none;
+	}
+	.emergency a {
+		color: #fff;
+		font-weight: 700;
+	}
+
+	/* Hero */
+	.hero {
+		padding: 2rem 0 0;
+	}
+	.hero-panel {
+		background: var(--navy);
+		color: #fff;
+		border-radius: 28px;
+		padding: 3.5rem 3.5rem 0;
+		display: grid;
+		grid-template-columns: 1.1fr 1fr;
+		gap: 2.5rem;
+		align-items: center;
+		overflow: hidden;
+	}
+	.hero-text {
+		padding-bottom: 3.5rem;
+	}
+	.hero h1 {
+		color: #fff;
+		margin-bottom: 1rem;
+	}
+	.lead {
+		font-size: 1.15rem;
+		color: #cfd3f5;
+		margin-bottom: 1.75rem;
+	}
+	.hero-actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+	}
+
+	/* Thought bubbles rising from the person */
+	.thinker {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		align-self: end;
+		gap: 0.5rem;
+	}
+	.bubbles {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		gap: 0.6rem;
+	}
+	.bubbles li {
+		max-width: 300px;
+	}
+	.bubbles li:nth-child(odd) {
+		align-self: flex-start;
+	}
+	.bubbles li:nth-child(even) {
+		align-self: flex-end;
+	}
+	.bubbles a {
+		display: block;
+		background: var(--cream);
+		color: var(--indigo);
+		text-decoration: none;
+		font-size: 0.95rem;
+		line-height: 1.4;
+		padding: 0.7rem 1.1rem;
+		border-radius: 20px;
+	}
+	.bubbles a:hover {
+		background: #fff;
+		color: var(--violet);
+		text-decoration: underline;
+	}
+	.trail {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 5px;
+	}
+	.trail span {
+		background: var(--cream);
+		border-radius: 50%;
+	}
+	.trail span:first-child {
+		width: 12px;
+		height: 12px;
+	}
+	.trail span:last-child {
+		width: 7px;
+		height: 7px;
+	}
+	.thinker-img {
+		width: 240px;
+		height: 300px;
+		object-fit: cover;
+		object-position: top center;
+		border-radius: 120px 120px 0 0; /* head-and-shoulders arch, sits on the panel's bottom edge */
+		display: block;
+	}
+
+	/* Stats */
+	.stats {
+		padding: 2.5rem 0;
+		border-bottom: 1px solid var(--line);
+	}
+	.stat-row {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+		gap: 1.5rem 2rem;
+		margin: 0;
+	}
+	.stat {
+		display: flex;
+		flex-direction: column-reverse; /* number shows first, label comes first in the DOM for screen readers */
+		justify-content: flex-end;
+	}
+	.stat dd {
+		margin: 0;
+		font-family: var(--font-display);
+		font-size: 2.6rem;
+		line-height: 1;
+		color: var(--indigo);
+	}
+	.stat dt {
+		margin-top: 0.4rem;
+		color: var(--ink-soft);
+		font-size: 0.95rem;
+		line-height: 1.35;
+	}
+	.stat.pending dd {
+		font-size: 1.15rem;
+		color: var(--ink-soft);
+		padding-top: 1rem;
+	}
+
+	/* Generic sections */
+	.section {
+		padding: 4rem 0;
+	}
+	.tint {
+		background: var(--violet-soft);
+	}
+	.section h2 {
+		margin-bottom: 1.5rem;
+	}
+	.section-head {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 0.25rem 1.5rem;
+		margin-bottom: 1.5rem;
+	}
+	.section-head h2 {
+		margin: 0;
+	}
+	.note {
+		color: var(--ink-soft);
+		margin-top: -0.75rem;
+	}
+
+	/* Text + image split */
+	.split {
+		display: grid;
+		grid-template-columns: 1.1fr 1fr;
+		gap: 4rem;
+		align-items: center;
+	}
+	.split.flip {
+		grid-template-columns: 1fr 1.1fr;
+	}
+	.side-img {
+		width: 100%;
+		max-height: 520px;
+		object-fit: cover;
+		border-radius: 24px;
+		display: block;
+	}
+
+	/* How it works: vertical steps */
+	.steps {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
+	}
+	.steps li {
+		display: flex;
+		gap: 1rem;
+		align-items: flex-start;
+	}
+	.step-n {
+		flex: none;
+		display: grid;
+		place-items: center;
+		width: 2.6rem;
+		height: 2.6rem;
+		border-radius: 50%;
+		background: var(--indigo);
+		color: var(--lime);
+		font-weight: 700;
+	}
+	.steps h3 {
+		margin-bottom: 0.15rem;
+	}
+	.steps p {
+		margin: 0;
+		color: var(--ink-soft);
+	}
+
+	/* Services: plain columns */
+	.services {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+		gap: 2rem;
+	}
+	.service {
+		border-top: 3px solid var(--violet);
+		padding-top: 0.9rem;
+	}
+	.service p {
+		margin: 0;
+		color: var(--ink-soft);
+	}
+
+	/* Image cards (events and blog) */
+	.cards {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+		gap: 1.5rem;
+	}
+	.card {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		background: #fff;
+		border: 1px solid var(--line);
+		border-radius: var(--radius);
+		overflow: hidden;
+		text-decoration: none;
+		color: var(--ink);
+	}
+	.card:hover {
+		border-color: var(--violet);
+	}
+	.card:hover h3 {
+		color: var(--violet);
+	}
+	.card-media {
+		position: relative;
+		background: var(--violet-soft);
+	}
+	/* Posters are usually portrait or square: tweak the ratio to suit yours */
+	.card-media.poster {
+		aspect-ratio: 1 / 1;
+	}
+	.card-media.wide {
+		aspect-ratio: 16 / 10;
+	}
+	.card-media :global(img),
+	.card-media .ph {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: top center;
+		border-radius: 0;
+		display: block;
+	}
+	.card-media .ph {
+		background: linear-gradient(135deg, var(--indigo), var(--violet));
+	}
+	.badge {
+		position: absolute;
+		top: 0.75rem;
+		left: 0.75rem;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		min-width: 3.4rem;
+		padding: 0.4rem 0.5rem;
+		border-radius: 10px;
+		background: var(--navy);
+		color: #fff;
+		line-height: 1.1;
+	}
+	.badge .d {
+		font-size: 1.4rem;
+		font-weight: 700;
+		color: var(--lime);
+	}
+	.badge .m {
+		font-size: 0.85rem;
+	}
+	.card-body {
+		padding: 1rem 1.1rem 1.25rem;
+	}
+	.card-body h3 {
+		font-size: 1.1rem;
+		margin-bottom: 0.4rem;
+	}
+	.meta {
+		margin: 0 0 0.35rem;
+		color: var(--ink-soft);
+		font-size: 0.9rem;
+	}
+	.excerpt {
+		margin: 0;
+		color: var(--ink-soft);
+		font-size: 0.95rem;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+
+	/* Newsletter banner */
+	.newsletter {
+		margin-top: 2.5rem;
+		background: var(--indigo);
+		color: #fff;
+		border-radius: var(--radius);
+		padding: 1.75rem 2rem;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1rem 2rem;
+		align-items: center;
+		justify-content: space-between;
+	}
+	.newsletter h2,
+	.newsletter p {
+		color: #fff;
+		margin: 0;
+	}
+	.newsletter h2 {
+		font-size: 1.5rem;
+		margin-bottom: 0.25rem;
+	}
+
+	/* FAQ */
+	.faq details {
+		border-bottom: 1px solid var(--line);
+		padding: 0.9rem 0;
+	}
+	.faq summary {
+		cursor: pointer;
+		font-weight: 700;
+		font-size: 1.05rem;
+	}
+	.faq p {
+		margin: 0.6rem 0 0;
+		color: var(--ink-soft);
+	}
+
+	/* Closing */
+	.closing {
+		padding: 0 0 4rem;
+	}
+	.closing-panel {
+		background: var(--navy);
+		color: #fff;
+		border-radius: 28px;
+		padding: 2.75rem 3rem;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 1rem 1.5rem;
+	}
+	.closing-panel h2 {
+		color: #fff;
+		margin: 0 auto 0 0;
+	}
+
+	@media (max-width: 900px) {
+		.hero-panel {
+			grid-template-columns: 1fr;
+			padding: 2.25rem 1.5rem 0;
+			border-radius: 22px;
+		}
+		.hero-text {
+			padding-bottom: 0;
+		}
+		.split,
+		.split.flip {
+			grid-template-columns: 1fr;
+			gap: 2rem;
+		}
+		/* On phones the text leads and the image follows, in both splits */
+		.split.flip .side-img {
+			order: 2;
+		}
+		.side-img {
+			max-height: 360px;
+		}
+		.section {
+			padding: 3rem 0;
+		}
+		.closing-panel {
+			padding: 2rem 1.5rem;
+		}
+	}
+</style>

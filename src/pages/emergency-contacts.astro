@@ -1,0 +1,433 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { EMERGENCY_NUMBER, POISON_INFORMATION_NUMBER } from '../consts';
+
+/* ---------- Helpers ---------- */
+const tel = (n: string) => `tel:${n.replace(/[^\d+]/g, '')}`;
+// wa.me wants digits only, with the country code. Local numbers starting with 0 are converted to +263.
+const wa = (n: string) => {
+	let d = n.replace(/\D/g, '');
+	if (d.startsWith('0')) d = '263' + d.slice(1);
+	return `https://wa.me/${d}`;
+};
+
+const phoneSvg = `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>`;
+const printSvg = `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>`;
+const waSvg = `<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`;
+
+/* ---------- Hardcoded numbers ----------
+   Compiled from public listings in October 2026. Numbers change, so confirm each one
+   by calling it before launch and again every few months. */
+const sections = [
+	{
+		title: 'National emergency numbers',
+		intro: 'For an ambulance, call 999 or one of the ambulance services below.',
+		groups: [
+			{
+				items: [
+					{ name: 'Any emergency', note: 'Police, fire and ambulance', numbers: ['999'] },
+					{ name: 'Police', numbers: ['995'] },
+					{ name: 'Fire brigade', numbers: ['993'] },
+					{
+						name: 'Toll-free from a mobile',
+						note: '112 on Econet, 114 on NetOne',
+						numbers: ['112', '114'],
+					},
+					{ name: 'Toll-free from a landline', numbers: ['0800 3222 911'] },
+				],
+			},
+		],
+	},
+	{
+		title: 'Ambulance services',
+		intro: 'Some private services ask about membership or payment. Ask when you call, but do not delay getting help.',
+		groups: [
+			{
+				items: [
+					{ name: 'MARS Ambulance', note: 'Road ambulances across Zimbabwe', numbers: ['+263 242 771221'] },
+					{ name: 'City of Harare Ambulance', note: 'Harare', numbers: ['+263 242 705654'] },
+					{
+						name: 'Netstar Ambulance',
+						note: 'Harare',
+						numbers: ['+263 242 797589', '+263 774 828888'],
+					},
+					{
+						name: 'ACE Ambulance',
+						note: 'Harare and Victoria Falls',
+						numbers: ['+263 242 332364', '+263 782 997997'],
+					},
+				],
+			},
+		],
+	},
+	{
+		title: 'Hospitals',
+		intro: 'These are main lines. In a serious emergency, go straight to the casualty or emergency department.',
+		groups: [
+			{
+				label: 'Harare',
+				items: [
+					{ name: 'Parirenyatwa Hospital', note: 'Public. Mazowe Street', numbers: ['+263 242 701555'] },
+					{ name: 'Sally Mugabe Central Hospital', note: 'Public. Southerton', numbers: ['+263 242 621143'] },
+					{ name: 'Borrowdale Trauma Centre', note: 'Private. Borrowdale Lane', numbers: ['+263 242 886921'] },
+				],
+			},
+			{
+				label: 'Bulawayo',
+				items: [
+					{ name: 'Mpilo Central Hospital', note: 'Public', numbers: ['+263 292 205078'] },
+					{ name: 'United Bulawayo Hospitals', note: 'Public', numbers: ['+263 292 238397'] },
+				],
+			},
+		],
+	},
+];
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title="Emergency contacts" description="Numbers to call for poisoning, snake bites, overdoses and other medical emergencies in Zimbabwe." />
+	</head>
+	<body>
+		<Header />
+
+		<main>
+			<div class="wrap page-head">
+				<h1>Emergency contacts</h1>
+				<p class="lead">
+					If someone is not breathing, is unconscious or is fitting, call straight away. Do not wait for a reply to a message.
+				</p>
+				<p class="print-only">Keep this sheet by the phone.</p>
+				<button class="btn btn-violet no-print" type="button" onclick="window.print()">
+					<span class="ic" set:html={printSvg} /> Print this sheet
+				</button>
+			</div>
+
+			<!-- The two DATIS lines, from consts -->
+			<div class="wrap primary">
+				<section class="big red" aria-labelledby="em-h">
+					<h2 id="em-h">DATIS emergency line</h2>
+					<a class="number" href={tel(EMERGENCY_NUMBER)}>{EMERGENCY_NUMBER}</a>
+					<div class="actions">
+						<a class="btn btn-light" href={tel(EMERGENCY_NUMBER)}>
+							<span class="ic" set:html={phoneSvg} /> Call
+						</a>
+						<a class="btn btn-outline-light" href={wa(EMERGENCY_NUMBER)} target="_blank" rel="noopener">
+							<span class="ic" set:html={waSvg} /> WhatsApp
+						</a>
+					</div>
+				</section>
+
+				<section class="big navy" aria-labelledby="pi-h">
+					<h2 id="pi-h">Poison information line</h2>
+					<a class="number" href={tel(POISON_INFORMATION_NUMBER)}>{POISON_INFORMATION_NUMBER}</a>
+					<p>Advice from our pharmacists on medicines and poisons.</p>
+					<div class="actions">
+						<a class="btn btn-primary" href={tel(POISON_INFORMATION_NUMBER)}>
+							<span class="ic" set:html={phoneSvg} /> Call
+						</a>
+					</div>
+				</section>
+			</div>
+
+			<!-- Hardcoded directories -->
+			{sections.map((s) => (
+				<section class="block">
+					<div class="wrap">
+						<h2>{s.title}</h2>
+						{s.intro && <p class="intro">{s.intro}</p>}
+						{s.groups.map((g) => (
+							<>
+								{g.label && <h3>{g.label}</h3>}
+								<ul class="rows">
+									{g.items.map((i) => (
+										<li>
+											<div class="who">
+												<strong>{i.name}</strong>
+												{i.note && <span>{i.note}</span>}
+											</div>
+											<div class="nums">
+												{i.numbers.map((n) => (
+													<a class="num" href={tel(n)} aria-label={`Call ${i.name} on ${n}`}>
+														<span class="ic" set:html={phoneSvg} /> {n}
+													</a>
+												))}
+											</div>
+										</li>
+									))}
+								</ul>
+							</>
+						))}
+					</div>
+				</section>
+			))}
+
+			<section class="block">
+				<div class="wrap">
+					<h2>Not an emergency?</h2>
+					<p class="intro no-print">
+						Use our chat to describe what happened. It asks a few questions, then sends your enquiry to a pharmacist.
+					</p>
+					<a class="btn btn-violet no-print" href="/chat">Open the chat</a>
+					<p class="small">
+						Numbers are compiled from public listings and can change. If one does not connect, try another.
+					</p>
+				</div>
+			</section>
+		</main>
+
+		<Footer />
+	</body>
+</html>
+
+<style>
+	.page-head {
+		padding: 2.5rem 0 1.5rem;
+	}
+	.lead {
+		font-size: 1.15rem;
+		color: var(--ink-soft);
+		margin-bottom: 0;
+	}
+
+	/* Two main lines */
+	.primary {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+		gap: 1rem;
+	}
+	.big {
+		border-radius: 22px;
+		padding: 1.75rem;
+		color: #fff;
+	}
+	.big.red {
+		background: var(--emergency);
+	}
+	.big.navy {
+		background: var(--navy);
+	}
+	.big h2 {
+		color: #fff;
+		font-size: 1.15rem;
+		margin: 0;
+	}
+	.big p {
+		color: rgba(255, 255, 255, 0.88);
+		margin-bottom: 1rem;
+	}
+	.number {
+		display: block;
+		margin: 0.4rem 0 1rem;
+		font-family: var(--font-display);
+		font-size: clamp(1.8rem, 5vw, 2.5rem);
+		line-height: 1.1;
+		color: #fff;
+		text-decoration: none;
+		overflow-wrap: anywhere;
+	}
+	.number:hover {
+		text-decoration: underline;
+		color: #fff;
+	}
+	.actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.6rem;
+	}
+	.btn-light {
+		background: #fff;
+		color: var(--emergency-dark);
+	}
+	.btn-light:hover {
+		background: var(--cream);
+		color: var(--emergency-dark);
+	}
+	.ic {
+		display: inline-flex;
+	}
+
+	/* Directories */
+	.block {
+		padding: 2.5rem 0 0;
+	}
+	.block:last-of-type {
+		padding-bottom: 4rem;
+	}
+	.block h2 {
+		margin-bottom: 0.25rem;
+	}
+	.block h3 {
+		margin: 1.5rem 0 0.25rem;
+		font-size: 1.1rem;
+		color: var(--indigo);
+	}
+	.intro {
+		color: var(--ink-soft);
+		margin-bottom: 1rem;
+	}
+	.rows {
+		list-style: none;
+		margin: 0.5rem 0 0;
+		padding: 0;
+		background: #fff;
+		border: 1px solid var(--line);
+		border-radius: var(--radius);
+	}
+	.rows li {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0.5rem 1.5rem;
+		padding: 0.85rem 1.1rem;
+	}
+	.rows li + li {
+		border-top: 1px solid var(--line);
+	}
+	.who {
+		display: flex;
+		flex-direction: column;
+		line-height: 1.35;
+	}
+	.who span {
+		font-size: 0.9rem;
+		color: var(--ink-soft);
+	}
+	.nums {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+	}
+	.num {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.45rem;
+		min-height: 2.75rem; /* comfortable tap target */
+		padding: 0.4rem 0.9rem;
+		border-radius: 999px;
+		background: var(--violet-soft);
+		color: var(--indigo);
+		font-weight: 700;
+		text-decoration: none;
+		white-space: nowrap;
+	}
+	.num:hover {
+		background: var(--violet);
+		color: #fff;
+	}
+	.small {
+		margin-top: 1.5rem;
+		font-size: 0.9rem;
+		color: var(--ink-soft);
+	}
+
+	.page-head .btn {
+		margin-top: 1.25rem;
+	}
+	.print-only {
+		display: none;
+	}
+
+	/* Print sheet: plain, black on white, one page where possible */
+	@media print {
+		@page {
+			margin: 14mm;
+		}
+		:global(header),
+		:global(footer),
+		.no-print {
+			display: none !important;
+		}
+		:global(body) {
+			background: #fff;
+			color: #000;
+			font-size: 12pt;
+			line-height: 1.4;
+		}
+		.print-only {
+			display: block;
+			margin: 0.25rem 0 0;
+			font-weight: 700;
+		}
+		.page-head {
+			padding: 0 0 0.75rem;
+		}
+		h1 {
+			font-size: 24pt;
+		}
+		.lead {
+			font-size: 12pt;
+			color: #000;
+		}
+		.big,
+		.big.red,
+		.big.navy {
+			background: #fff;
+			color: #000;
+			border: 2px solid #000;
+			border-radius: 10px;
+			padding: 0.9rem 1.1rem;
+		}
+		.big h2,
+		.big p,
+		.number,
+		.number:hover {
+			color: #000;
+		}
+		.number {
+			font-size: 22pt;
+			margin-bottom: 0.25rem;
+		}
+		.big .actions {
+			display: none;
+		}
+		.block {
+			padding: 1rem 0 0;
+		}
+		.block:last-of-type {
+			padding-bottom: 0;
+		}
+		.block h2 {
+			font-size: 15pt;
+		}
+		.block h3 {
+			color: #000;
+			margin-top: 0.75rem;
+		}
+		.intro,
+		.who span,
+		.small {
+			color: #000;
+		}
+		.rows {
+			border-color: #000;
+			border-radius: 0;
+		}
+		.rows li {
+			padding: 0.4rem 0.6rem;
+			break-inside: avoid;
+		}
+		.rows li + li {
+			border-top-color: #999;
+		}
+		.num,
+		.num:hover {
+			background: none;
+			color: #000;
+			padding: 0;
+			min-height: 0;
+			border-radius: 0;
+		}
+		.num .ic {
+			display: none;
+		}
+		.small {
+			margin-top: 0.75rem;
+			font-size: 10pt;
+		}
+	}
+</style>

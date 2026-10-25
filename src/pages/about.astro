@@ -1,63 +1,574 @@
 ---
-import AboutHeroImage from '../assets/blog-placeholder-about.jpg';
-import Layout from '../layouts/BlogPost.astro';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+
+const description =
+	'Who we are, what we do, and the pharmacists behind the Drug and Toxicology Information Service at the University of Zimbabwe.';
+
+const facts = [
+	{ label: 'Established', value: '1979' },
+	{ label: 'Part of', value: 'University of Zimbabwe' },
+	{ label: 'Supported by', value: 'Ministry of Health and Child Care' },
+	{ label: 'Recognised by', value: 'WHO poisons information centre' },
+];
+
+const services = [
+	{
+		title: 'Drug information',
+		text: 'Doses, interactions, use in pregnancy and breastfeeding, and safe use in people with other conditions.',
+	},
+	{
+		title: 'Poison information',
+		text: 'What to do after swallowing, inhaling or touching a harmful substance, including pesticides, household chemicals and traditional medicines.',
+	},
+	{
+		title: 'Side-effect reporting',
+		text: 'Tell us about an unexpected reaction so it can be reviewed and others can be protected.',
+	},
+	{
+		title: 'Therapeutic drug monitoring',
+		text: 'Clinical pharmacokinetics advice to help clinicians interpret medicine levels and adjust doses.',
+	},
+	{
+		title: 'Research support',
+		text: 'Literature searches and evidence summaries for clinicians, students and researchers.',
+	},
+	{
+		title: 'Teaching and continuing education',
+		text: 'Seminars, case discussions and continuing education sessions for pharmacists, nurses, doctors and students.',
+	},
+];
+
+const milestones = [
+	{
+		year: '1979',
+		title: 'The service begins',
+		text: 'DATIS is set up as a mission of the Department of Pharmacy at the University of Zimbabwe Medical School, with support from the Ministry of Health.',
+	},
+	{
+		year: '1980s',
+		title: 'A national reference point',
+		text: 'In its early years the service records about 1,000 enquiries, roughly three-quarters of them about medicines and the rest about poisons. The records highlight pesticides, traditional medicines and medicines themselves as major causes of poisoning in Zimbabwe.',
+	},
+	{
+		year: '1990s',
+		title: 'A telephone service for the whole country',
+		text: 'Hospitals and clinics across Zimbabwe receive the numbers of the pharmacists and toxicologists on call after hours, so they can get advice when they need it most.',
+	},
+	{
+		year: 'Today',
+		title: 'Advice, teaching and research',
+		text: 'DATIS is listed by the World Health Organization as a poisons information centre. We answer enquiries, run continuing education, support therapeutic drug monitoring and carry out research on medicine safety and poisoning.',
+	},
+];
+
+const team = [
+	{
+		name: 'Mr Louis Gadaga',
+		role: 'Director',
+		initials: 'LG',
+		lead: true,
+		bio: [
+			'Louis is the Director of DATIS and a lecturer in Pharmaceutics and Clinical Pharmacy at the University of Zimbabwe. He has led the service since 2016.',
+			'He holds a Bachelor of Pharmacy (Honours) and an MPhil in Medicine (Pharmacology and Toxicology) from UZ, and is currently completing doctoral research. His interests include neuropharmacology, toxicity testing, natural products, nanotoxicology and nanomedicine, and better ways to deliver traditional medicines.',
+			'He has supervised more than 40 honours research projects and has authored more than 10 publications.',
+		],
+		focus: ['Pharmacology', 'Toxicology', 'Nanomedicine'],
+	},
+	{
+		name: 'Mr Tawana Karemba',
+		role: 'Supervisor',
+		initials: 'TK',
+		lead: false,
+		bio: [
+			'Tawana is a pharmacist and supervisor at DATIS. He helps run the day-to-day enquiry service and supports the pharmacists who answer questions from the public and from health facilities.',
+			'He holds a Bachelor of Pharmacy from the University of Zimbabwe. His interests are in clinical pharmacology, medicines information and pharmacy education.',
+		],
+		focus: ['Clinical pharmacology', 'Medicines information', 'Pharmacy education'],
+	},
+	{
+		name: 'Mr Nicholas Muparadzi',
+		role: 'Supervisor',
+		initials: 'NM',
+		lead: false,
+		bio: [
+			'Nicholas is a pharmacist and supervisor at DATIS, where he has worked since 2019. He reviews medicine and poisoning enquiries and contributes to the service’s research output.',
+			'His research covers medicines information, harm reduction for drug use, and the use of nanotechnology in health. He has published on harm reduction for methamphetamine use in Zimbabwe and on nanomedicine and water purification, and also works as a tutor for pharmacy technicians.',
+		],
+		focus: ['Medicines information', 'Harm reduction', 'Nanotechnology'],
+	},
+];
 ---
 
-<Layout
-	title="About Me"
-	description="Lorem ipsum dolor sit amet"
-	pubDate={new Date('August 08 2021')}
-	heroImage={AboutHeroImage}
->
-	<p>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-		labore et dolore magna aliqua. Vitae ultricies leo integer malesuada nunc vel risus commodo
-		viverra. Adipiscing enim eu turpis egestas pretium. Euismod elementum nisi quis eleifend quam
-		adipiscing. In hac habitasse platea dictumst vestibulum. Sagittis purus sit amet volutpat. Netus
-		et malesuada fames ac turpis egestas. Eget magna fermentum iaculis eu non diam phasellus
-		vestibulum lorem. Varius sit amet mattis vulputate enim. Habitasse platea dictumst quisque
-		sagittis. Integer quis auctor elit sed vulputate mi. Dictumst quisque sagittis purus sit amet.
-	</p>
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title="About DATIS" description={description} />
+	</head>
+	<body>
+		<a class="skip" href="#main">Skip to content</a>
+		<Header />
 
-	<p>
-		Morbi tristique senectus et netus. Id semper risus in hendrerit gravida rutrum quisque non
-		tellus. Habitasse platea dictumst quisque sagittis purus sit amet. Tellus molestie nunc non
-		blandit massa. Cursus vitae congue mauris rhoncus. Accumsan tortor posuere ac ut. Fringilla urna
-		porttitor rhoncus dolor. Elit ullamcorper dignissim cras tincidunt lobortis. In cursus turpis
-		massa tincidunt dui ut ornare lectus. Integer feugiat scelerisque varius morbi enim nunc.
-		Bibendum neque egestas congue quisque egestas diam. Cras ornare arcu dui vivamus arcu felis
-		bibendum. Dignissim suspendisse in est ante in nibh mauris. Sed tempus urna et pharetra pharetra
-		massa massa ultricies mi.
-	</p>
+		<main id="main">
+			<!-- Page head -->
+			<section class="page-head">
+				<div class="wrap">
+					<p class="eyebrow">About DATIS</p>
+					<h1>Trusted answers about medicines and poisons, since 1979.</h1>
+					<p class="lead">
+						The Drug and Toxicology Information Service (DATIS) is Zimbabwe’s national drug and poisons
+						information centre. We give healthcare professionals, researchers and the public free,
+						evidence-based answers about medicines, side effects and poisoning.
+					</p>
+					<div class="actions">
+						<a class="btn btn-violet" href="/chat">Ask a question</a>
+						<a class="btn btn-outline" href="/emergency-contacts">Emergency contacts</a>
+					</div>
+				</div>
+			</section>
 
-	<p>
-		Mollis nunc sed id semper risus in. Convallis a cras semper auctor neque. Diam sit amet nisl
-		suscipit. Lacus viverra vitae congue eu consequat ac felis donec. Egestas integer eget aliquet
-		nibh praesent tristique magna sit amet. Eget magna fermentum iaculis eu non diam. In vitae
-		turpis massa sed elementum. Tristique et egestas quis ipsum suspendisse ultrices. Eget lorem
-		dolor sed viverra ipsum. Vel turpis nunc eget lorem dolor sed viverra. Posuere ac ut consequat
-		semper viverra nam. Laoreet suspendisse interdum consectetur libero id faucibus. Diam phasellus
-		vestibulum lorem sed risus ultricies tristique. Rhoncus dolor purus non enim praesent elementum
-		facilisis. Ultrices tincidunt arcu non sodales neque. Tempus egestas sed sed risus pretium quam
-		vulputate. Viverra suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Fringilla
-		urna porttitor rhoncus dolor purus non. Amet dictum sit amet justo donec enim.
-	</p>
+			<!-- Who we are -->
+			<section class="section">
+				<div class="wrap split">
+					<div>
+						<h2>Who we are</h2>
+						<p>
+							DATIS is a unit within the Department of Pharmacy and Pharmaceutical Sciences in the
+							Faculty of Medicine and Health Sciences at the University of Zimbabwe. We work with the
+							Ministry of Health and Child Care to provide a national service, and the World Health
+							Organization lists us as a poisons information centre.
+						</p>
+						<p>
+							Our pharmacists and toxicologists answer questions that are hard to resolve from a
+							textbook or a label: whether two medicines can be taken together, how a medicine behaves
+							in pregnancy or breastfeeding, what to do after a child swallows a tablet, or how to
+							manage exposure to a pesticide or a traditional remedy. We search the literature,
+							interpret the evidence and explain it in plain language.
+						</p>
+						<p>
+							Most of our work is with healthcare professionals, but anyone in Zimbabwe can ask us a
+							question. We also teach, run continuing education sessions, support research and monitor
+							medicine safety.
+						</p>
+					</div>
+					<dl class="facts">
+						{
+							facts.map((fact) => (
+								<div>
+									<dt>{fact.label}</dt>
+									<dd>{fact.value}</dd>
+								</div>
+							))
+						}
+					</dl>
+				</div>
+			</section>
 
-	<p>
-		Mattis ullamcorper velit sed ullamcorper morbi tincidunt. Tortor posuere ac ut consequat semper
-		viverra. Tellus mauris a diam maecenas sed enim ut sem viverra. Venenatis urna cursus eget nunc
-		scelerisque viverra mauris in. Arcu ac tortor dignissim convallis aenean et tortor at. Curabitur
-		gravida arcu ac tortor dignissim convallis aenean et tortor. Egestas tellus rutrum tellus
-		pellentesque eu. Fusce ut placerat orci nulla pellentesque dignissim enim sit amet. Ut enim
-		blandit volutpat maecenas volutpat blandit aliquam etiam. Id donec ultrices tincidunt arcu. Id
-		cursus metus aliquam eleifend mi.
-	</p>
+			<!-- What we do -->
+			<section class="section tint">
+				<div class="wrap">
+					<h2>What we do</h2>
+					<p class="intro">
+						One service, two kinds of question: what a medicine does, and what a poison does. We answer
+						both, and we help the people who treat them.
+					</p>
+					<div class="services">
+						{
+							services.map((service) => (
+								<div class="service">
+									<h3>{service.title}</h3>
+									<p>{service.text}</p>
+								</div>
+							))
+						}
+					</div>
+				</div>
+			</section>
 
-	<p>
-		Tempus quam pellentesque nec nam aliquam sem. Risus at ultrices mi tempus imperdiet. Id porta
-		nibh venenatis cras sed felis eget velit. Ipsum a arcu cursus vitae. Facilisis magna etiam
-		tempor orci eu lobortis elementum. Tincidunt dui ut ornare lectus sit. Quisque non tellus orci
-		ac. Blandit libero volutpat sed cras. Nec tincidunt praesent semper feugiat nibh sed pulvinar
-		proin gravida. Egestas integer eget aliquet nibh praesent tristique magna.
-	</p>
-</Layout>
+			<!-- History -->
+			<section class="section">
+				<div class="wrap">
+					<h2>Our history</h2>
+					<p class="intro">
+						DATIS has been part of Zimbabwe’s health system for more than four decades. These are some of
+						the moments that shaped the service.
+					</p>
+					<ol class="timeline">
+						{
+							milestones.map((milestone) => (
+								<li>
+									<span class="year">{milestone.year}</span>
+									<div>
+										<h3>{milestone.title}</h3>
+										<p>{milestone.text}</p>
+									</div>
+								</li>
+							))
+						}
+					</ol>
+				</div>
+			</section>
+
+			<!-- Team -->
+			<section class="section tint" id="team">
+				<div class="wrap">
+					<h2>Our team</h2>
+					<p class="intro">
+						DATIS is run by a small team of pharmacists and toxicologists based at the University of
+						Zimbabwe. They review every enquiry, teach, and carry out research on medicine safety and
+						poisoning in Zimbabwe.
+					</p>
+					<ul class="team">
+						{
+							team.map((member) => (
+								<li class:list={['member', { lead: member.lead }]}>
+									<div class="avatar" aria-hidden="true">
+										{member.initials}
+									</div>
+									<div class="member-body">
+										<h3>{member.name}</h3>
+										<p class="role">{member.role}</p>
+										{member.bio.map((paragraph) => (
+											<p>{paragraph}</p>
+										))}
+										<ul class="focus" aria-label={`${member.name} areas of focus`}>
+											{member.focus.map((item) => (
+												<li>{item}</li>
+											))}
+										</ul>
+									</div>
+								</li>
+							))
+						}
+					</ul>
+				</div>
+			</section>
+
+			<!-- Closing call -->
+			<section class="section">
+				<div class="wrap">
+					<div class="closing">
+						<div>
+							<h2>Have a question about a medicine or a poison?</h2>
+							<p>
+								Tell us what happened and a pharmacist will review it. If someone is unconscious,
+								struggling to breathe or having a seizure, get emergency help first.
+							</p>
+						</div>
+						<div class="actions">
+							<a class="btn btn-primary" href="/chat">Ask a question</a>
+							<a class="btn btn-outline" href="/emergency-contacts">Emergency contacts</a>
+						</div>
+					</div>
+				</div>
+			</section>
+		</main>
+
+		<Footer />
+	</body>
+</html>
+
+<style>
+	.skip {
+		position: absolute;
+		left: -999px;
+		top: 0;
+		background: var(--lime);
+		color: var(--indigo-deep);
+		padding: 0.6rem 1rem;
+		z-index: 100;
+	}
+	.skip:focus {
+		left: 0;
+	}
+
+	/* Page head */
+	.page-head {
+		padding: clamp(2rem, 5vw, 4rem) 0 clamp(1.5rem, 3vw, 2.5rem);
+	}
+	.eyebrow {
+		margin: 0 0 0.75rem;
+		font-size: 0.8rem;
+		font-weight: 700;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--violet);
+	}
+	.page-head h1 {
+		max-width: 20ch;
+	}
+	.lead {
+		max-width: 62ch;
+		font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+		color: var(--ink-soft);
+		margin-bottom: 0;
+	}
+	.actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.7rem;
+		margin-top: 1.75rem;
+	}
+	.btn-outline {
+		background: #fff;
+		border-color: var(--line);
+		color: var(--indigo);
+	}
+	.btn-outline:hover {
+		border-color: var(--violet);
+		color: var(--indigo);
+	}
+
+	/* Sections */
+	.section {
+		padding: clamp(2.5rem, 6vw, 4rem) 0;
+	}
+	.tint {
+		background: var(--violet-soft);
+	}
+	.section h2 {
+		margin-bottom: 1.5rem;
+	}
+	.intro {
+		max-width: 66ch;
+		color: var(--ink-soft);
+		margin-top: -0.75rem;
+		margin-bottom: 2rem;
+	}
+
+	/* Who we are: text + facts */
+	.split {
+		display: grid;
+		grid-template-columns: 1.15fr 1fr;
+		gap: clamp(1.75rem, 4vw, 4rem);
+		align-items: start;
+	}
+	.split p {
+		color: var(--ink-soft);
+	}
+	.facts {
+		display: grid;
+		gap: 1px;
+		margin: 0;
+		background: var(--line);
+		border: 1px solid var(--line);
+		border-radius: var(--radius);
+		overflow: hidden;
+	}
+	.facts div {
+		background: #fff;
+		padding: 1rem 1.25rem;
+	}
+	.facts dt {
+		font-size: 0.78rem;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--ink-soft);
+	}
+	.facts dd {
+		margin: 0.15rem 0 0;
+		font-weight: 700;
+		line-height: 1.35;
+		color: var(--ink);
+	}
+
+	/* What we do */
+	.services {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+		gap: 2rem;
+	}
+	.service {
+		border-top: 3px solid var(--violet);
+		padding-top: 0.9rem;
+	}
+	.service h3 {
+		margin-bottom: 0.35rem;
+	}
+	.service p {
+		margin: 0;
+		color: var(--ink-soft);
+	}
+
+	/* History timeline */
+	.timeline {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		border-left: 2px solid var(--line);
+	}
+	.timeline li {
+		position: relative;
+		display: grid;
+		grid-template-columns: 5.5rem 1fr;
+		gap: 1.25rem;
+		padding: 0 0 1.75rem 1.5rem;
+	}
+	.timeline li:last-child {
+		padding-bottom: 0;
+	}
+	.timeline li::before {
+		content: '';
+		position: absolute;
+		left: -0.5rem;
+		top: 0.45rem;
+		width: 0.75rem;
+		height: 0.75rem;
+		border-radius: 50%;
+		background: var(--violet);
+	}
+	.year {
+		font-family: var(--font-display);
+		font-weight: 700;
+		color: var(--indigo);
+		line-height: 1.2;
+	}
+	.timeline h3 {
+		margin-bottom: 0.3rem;
+	}
+	.timeline p {
+		margin: 0;
+		max-width: 62ch;
+		color: var(--ink-soft);
+	}
+
+	/* Team */
+	.team {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 1.25rem;
+	}
+	.member {
+		display: flex;
+		flex-direction: column;
+		gap: 1.1rem;
+		background: #fff;
+		border: 1px solid var(--line);
+		border-radius: var(--radius);
+		padding: 1.5rem;
+	}
+	.member.lead {
+		grid-column: 1 / -1;
+		flex-direction: row;
+		align-items: flex-start;
+		gap: 1.75rem;
+		padding: clamp(1.5rem, 3vw, 2rem);
+	}
+	.avatar {
+		flex: none;
+		display: grid;
+		place-items: center;
+		width: 3.5rem;
+		height: 3.5rem;
+		border-radius: 50%;
+		background: var(--navy);
+		color: var(--lime);
+		font-family: var(--font-display);
+		font-weight: 700;
+		font-size: 1.1rem;
+		letter-spacing: 0.04em;
+	}
+	.member.lead .avatar {
+		width: 5rem;
+		height: 5rem;
+		font-size: 1.5rem;
+	}
+	.member-body {
+		min-width: 0;
+	}
+	.member h3 {
+		margin-bottom: 0.1rem;
+	}
+	.role {
+		margin: 0 0 0.85rem;
+		font-weight: 700;
+		font-size: 0.85rem;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--violet);
+	}
+	.member-body p {
+		color: var(--ink-soft);
+	}
+	.member-body p:last-of-type {
+		margin-bottom: 1rem;
+	}
+	.focus {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.4rem;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+	.focus li {
+		padding: 0.2rem 0.65rem;
+		border-radius: 999px;
+		background: var(--cream);
+		border: 1px solid var(--line);
+		font-size: 0.82rem;
+		color: var(--ink-soft);
+	}
+
+	/* Closing call */
+	.closing {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1.5rem 2.5rem;
+		padding: clamp(1.75rem, 4vw, 2.5rem);
+		border-radius: 22px;
+		background: var(--navy);
+		color: #fff;
+	}
+	.closing h2 {
+		margin-bottom: 0.5rem;
+		color: #fff;
+	}
+	.closing p {
+		margin: 0;
+		max-width: 60ch;
+		color: rgba(255, 255, 255, 0.85);
+	}
+	.closing .actions {
+		margin-top: 0;
+	}
+	.closing .btn-outline {
+		background: transparent;
+		border-color: rgba(255, 255, 255, 0.55);
+		color: #fff;
+	}
+	.closing .btn-outline:hover {
+		background: rgba(255, 255, 255, 0.12);
+		color: #fff;
+	}
+
+	@media (max-width: 820px) {
+		.split {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	@media (max-width: 720px) {
+		.page-head h1 {
+			max-width: none;
+		}
+		.team {
+			grid-template-columns: 1fr;
+		}
+		.member.lead {
+			flex-direction: column;
+			gap: 1.1rem;
+		}
+		.timeline li {
+			grid-template-columns: 1fr;
+			gap: 0.2rem;
+		}
+	}
+</style>

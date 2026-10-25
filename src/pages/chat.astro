@@ -1,0 +1,19 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import Chat from '../components/Chat.tsx';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title="Chat" description="Make your enquiry to our chatbot" />
+	</head>
+	<body>
+		<Header />
+		<main>
+	<Chat client:load />
+		</main>
+	</body>
+</html>

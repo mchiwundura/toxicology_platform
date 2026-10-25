@@ -1,40 +1,88 @@
 /*
-  The CSS in this style tag is based off of Bear Blog's default CSS.
-  https://github.com/HermanMartinus/bearblog/blob/297026a877bc2ab2b3bdfbd6b9f7961c350917dd/templates/styles/blog/default.css
-  License MIT: https://github.com/HermanMartinus/bearblog/blob/master/LICENSE.md
- */
+  DATIS global styles.
+  Replaces the Bear Blog starter CSS. Palette is Tokyo Nights, re-weighted:
+  indigo + violet are the brand, cream is the page, lime is a tiny accent,
+  and red is reserved for anything emergency-related.
+*/
 
 :root {
-	--accent: #2337ff;
-	--accent-dark: #000d8a;
-	--black: 15, 18, 25;
-	--gray: 96, 115, 159;
-	--gray-light: 229, 233, 240;
-	--gray-dark: 34, 41, 57;
-	--gray-gradient: rgba(var(--gray-light), 50%), #fff;
-	--box-shadow:
-		0 2px 6px rgba(var(--gray), 25%), 0 8px 24px rgba(var(--gray), 33%),
-		0 16px 32px rgba(var(--gray), 33%);
+	/* Brand */
+	--indigo: #2200a9;
+	--indigo-deep: #160070;
+	--navy: #0d1458; /* the deep blue from the DATIS logo */
+	--violet: #7039f0;
+	--violet-soft: #ece5ff;
+	--cream: #f9fde6;
+	--lime: #e0f653;
+	--emergency: #c9183a;
+	--emergency-dark: #9d1029;
+
+	/* Text */
+	--ink: #17133a;
+	--ink-soft: #4a4670;
+	--line: #dcd9ee;
+
+	/* Legacy variables the starter components (Header, Footer, blog layout) may still use */
+	--accent: var(--violet);
+	--accent-dark: var(--indigo);
+	--black: 23, 19, 58;
+	--gray: 74, 70, 112;
+	--gray-light: 236, 229, 255;
+	--gray-dark: 23, 19, 58;
+	--gray-gradient: transparent, transparent;
+	--box-shadow: 0 2px 6px rgba(var(--gray), 20%), 0 8px 24px rgba(var(--gray), 18%);
+
+	/* Type: swap --font-display for the name of the DATIS font you loaded */
+	--font-display: 'DATIS Display', var(--font-atkinson), system-ui, sans-serif;
+	--font-body: var(--font-atkinson), system-ui, sans-serif;
+
+	--radius: 14px;
+	--wrap: 1120px;
 }
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
 body {
-	font-family: var(--font-atkinson);
+	font-family: var(--font-body);
 	margin: 0;
 	padding: 0;
 	text-align: left;
-	background: linear-gradient(var(--gray-gradient)) no-repeat;
-	background-size: 100% 600px;
+	background: var(--cream);
 	word-wrap: break-word;
 	overflow-wrap: break-word;
-	color: rgb(var(--gray-dark));
-	font-size: 20px;
-	line-height: 1.7;
+	color: var(--ink);
+	font-size: 18px;
+	line-height: 1.65;
 }
+
+/* Full-width main so homepage sections can span the page.
+   Blog and CE layouts that want a narrow column should add class="prose-page". */
 main {
+	width: 100%;
+	margin: 0;
+	padding: 0;
+}
+main.prose-page {
 	width: 720px;
 	max-width: calc(100% - 2em);
 	margin: auto;
 	padding: 3em 1em;
 }
+
+.wrap {
+	width: var(--wrap);
+	max-width: calc(100% - 2.5rem);
+	margin-inline: auto;
+}
+
 h1,
 h2,
 h3,
@@ -42,40 +90,94 @@ h4,
 h5,
 h6 {
 	margin: 0 0 0.5rem 0;
-	color: rgb(var(--black));
-	line-height: 1.2;
+	color: var(--ink);
+	line-height: 1.15;
+	font-family: var(--font-display);
 }
 h1 {
-	font-size: 3.052em;
+	font-size: clamp(2.2rem, 5vw, 3.6rem);
 }
 h2 {
-	font-size: 2.441em;
+	font-size: clamp(1.7rem, 3.2vw, 2.4rem);
 }
 h3 {
-	font-size: 1.953em;
+	font-size: 1.3rem;
 }
 h4 {
-	font-size: 1.563em;
-}
-h5 {
-	font-size: 1.25em;
+	font-size: 1.15rem;
 }
 strong,
 b {
 	font-weight: 700;
 }
 a {
-	color: var(--accent);
+	color: var(--violet);
 }
 a:hover {
-	color: var(--accent);
+	color: var(--indigo);
 }
 p {
+	margin-top: 0;
 	margin-bottom: 1em;
+	max-width: 68ch;
 }
 .prose p {
 	margin-bottom: 2em;
 }
+
+:focus-visible {
+	outline: 3px solid var(--violet);
+	outline-offset: 3px;
+	border-radius: 4px;
+}
+
+/* Buttons */
+.btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.8rem 1.5rem;
+	border-radius: 999px;
+	font-weight: 700;
+	font-size: 1rem;
+	line-height: 1.2;
+	text-decoration: none;
+	border: 2px solid transparent;
+	cursor: pointer;
+}
+.btn-primary {
+	background: var(--lime);
+	color: var(--indigo-deep);
+}
+.btn-primary:hover {
+	background: #eefa8f;
+	color: var(--indigo-deep);
+}
+.btn-violet {
+	background: var(--violet);
+	color: #fff;
+}
+.btn-violet:hover {
+	background: var(--indigo);
+	color: #fff;
+}
+.btn-outline-light {
+	border-color: rgba(255, 255, 255, 0.55);
+	color: #fff;
+}
+.btn-outline-light:hover {
+	background: rgba(255, 255, 255, 0.12);
+	color: #fff;
+}
+.btn-emergency {
+	background: var(--emergency);
+	color: #fff;
+}
+.btn-emergency:hover {
+	background: var(--emergency-dark);
+	color: #fff;
+}
+
 textarea {
 	width: 100%;
 	font-size: 16px;
@@ -104,21 +206,32 @@ pre > code {
 	all: unset;
 }
 blockquote {
-	border-left: 4px solid var(--accent);
+	border-left: 4px solid var(--violet);
 	padding: 0 0 0 20px;
 	margin: 0;
-	font-size: 1.333em;
+	font-size: 1.2em;
 }
 hr {
 	border: none;
-	border-top: 1px solid rgb(var(--gray-light));
+	border-top: 1px solid var(--line);
 }
+
 @media (max-width: 720px) {
 	body {
-		font-size: 18px;
+		font-size: 17px;
 	}
-	main {
+	main.prose-page {
 		padding: 1em;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
+	* {
+		animation: none !important;
+		transition: none !important;
 	}
 }
 
@@ -130,12 +243,408 @@ hr {
 	height: 1px;
 	width: 1px;
 	overflow: hidden;
-	/* IE6, IE7 - a 0 height clip, off to the bottom right of the visible 1px box */
 	clip: rect(1px 1px 1px 1px);
-	/* maybe deprecated but we need to support legacy browsers */
 	clip: rect(1px, 1px, 1px, 1px);
-	/* modern browsers, clip-path works inwards from each corner */
 	clip-path: inset(50%);
-	/* added line to stop words getting smushed together (as they go onto separate lines and some screen readers do not understand line feeds as a space */
 	white-space: nowrap;
+}
+
+/* ==========================================================
+   DATIS chat: paste this at the end of global.css
+   Uses the tokens and .btn classes already defined there.
+   ========================================================== */
+
+.chat {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	max-width: 640px;
+	height: min(780px, calc(100dvh - 7rem));
+	margin: 1.25rem auto;
+	background: #fff;
+	border: 1px solid var(--line);
+	border-radius: 22px;
+	overflow: hidden;
+	box-shadow: var(--box-shadow);
+	font-size: 1rem;
+	line-height: 1.5;
+}
+
+/* Header */
+.chat-head {
+	display: flex;
+	align-items: center;
+	gap: 0.6rem;
+	padding: 0.8rem 1rem;
+	background: var(--navy);
+	color: #fff;
+}
+.chat-title {
+	flex: 1;
+	min-width: 0;
+}
+.chat-head h2 {
+	margin: 0;
+	color: #fff;
+	font-size: 1.1rem;
+}
+.chat-head small {
+	display: block;
+	color: #cfd3f5;
+	font-size: 0.8rem;
+}
+.chat-icon-btn {
+	display: grid;
+	place-items: center;
+	width: 2.5rem;
+	height: 2.5rem;
+	border: 0;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.12);
+	color: #fff;
+	cursor: pointer;
+	transition: background 0.12s;
+}
+.chat-icon-btn:hover {
+	background: rgba(255, 255, 255, 0.24);
+}
+
+/* Always-visible emergency bar */
+.chat-emergency {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.55rem 1rem;
+	background: var(--emergency);
+	color: #fff;
+	font-size: 0.9rem;
+	font-weight: 700;
+	line-height: 1.3;
+	text-decoration: none;
+}
+.chat-emergency:hover {
+	background: var(--emergency-dark);
+	color: #fff;
+}
+.chat-emergency svg {
+	flex: none;
+}
+
+/* Conversation */
+.chat-body {
+	position: relative;
+	flex: 1;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	padding: 1.1rem;
+	display: flex;
+	flex-direction: column;
+	gap: 0.9rem;
+	background: var(--cream);
+}
+.chat-turn,
+.chat-block {
+	display: flex;
+	flex-direction: column;
+	gap: 0.6rem;
+}
+.chat-bot,
+.chat-user {
+	max-width: 88%;
+}
+.chat-bot {
+	align-self: flex-start;
+	background: #fff;
+	border: 1px solid var(--line);
+	border-radius: 4px 18px 18px 18px;
+	padding: 0.7rem 1rem;
+}
+.chat-user {
+	align-self: flex-end;
+	background: var(--indigo);
+	color: #fff;
+	border-radius: 18px 18px 4px 18px;
+	padding: 0.55rem 1rem;
+}
+.chat-hint {
+	margin: 0.4rem 0 0;
+	font-size: 0.88rem;
+	color: var(--ink-soft);
+}
+
+/* Answer buttons */
+.chat-options {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+.chat-opt {
+	font: inherit;
+	text-align: left;
+	padding: 0.8rem 1rem;
+	background: #fff;
+	color: var(--indigo);
+	border: 2px solid var(--line);
+	border-radius: 14px;
+	cursor: pointer;
+	transition: border-color 0.12s, background 0.12s, transform 0.08s;
+}
+.chat-opt:hover {
+	border-color: var(--violet);
+	background: var(--violet-soft);
+}
+.chat-opt--danger {
+	color: var(--emergency-dark);
+	border-color: #f0b8c2;
+}
+.chat-opt--danger:hover {
+	border-color: var(--emergency);
+	background: #fdecef;
+}
+
+/* Image tiles */
+.chat-tiles {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 0.6rem;
+}
+.chat-tile {
+	display: flex;
+	flex-direction: column;
+	padding: 0;
+	overflow: hidden;
+	font: inherit;
+	text-align: left;
+	color: var(--ink);
+	background: #fff;
+	border: 2px solid var(--line);
+	border-radius: 14px;
+	cursor: pointer;
+	transition: border-color 0.12s, transform 0.08s;
+}
+.chat-tile img {
+	width: 100%;
+	aspect-ratio: 4 / 3;
+	object-fit: cover;
+	border-radius: 0;
+	display: block;
+	background: var(--violet-soft);
+}
+.chat-tile span {
+	padding: 0.55rem 0.75rem 0.65rem;
+	font-weight: 700;
+	font-size: 0.95rem;
+	line-height: 1.3;
+}
+.chat-tile:hover {
+	border-color: var(--violet);
+}
+.chat-opt:active,
+.chat-tile:active {
+	transform: scale(0.98);
+}
+
+/* Advice card */
+.chat-advice {
+	background: #fff;
+	border: 1px solid var(--line);
+	border-left: 6px solid var(--violet);
+	border-radius: 14px;
+	padding: 1rem 1.1rem;
+}
+.chat-advice--urgent {
+	border-left-color: var(--emergency);
+}
+.chat-advice h3 {
+	margin: 0 0 0.7rem;
+	font-size: 1.2rem;
+}
+.chat-call {
+	margin-bottom: 0.9rem;
+}
+.chat-advice ol {
+	margin: 0;
+	padding-left: 1.25rem;
+}
+.chat-advice li {
+	margin-bottom: 0.45rem;
+}
+.chat-avoid {
+	margin-top: 0.9rem;
+	padding-top: 0.8rem;
+	border-top: 1px solid var(--line);
+}
+.chat-avoid p {
+	margin: 0 0 0.4rem;
+	font-weight: 700;
+	color: var(--emergency-dark);
+}
+.chat-avoid ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.chat-avoid li {
+	display: flex;
+	align-items: flex-start;
+	gap: 0.5rem;
+	margin-bottom: 0.3rem;
+}
+.chat-avoid svg {
+	flex: none;
+	margin-top: 0.2rem;
+	color: var(--emergency);
+}
+
+/* Escalation form */
+.chat-escalate {
+	display: grid;
+	gap: 0.85rem;
+	background: #fff;
+	border: 1px solid var(--line);
+	border-radius: 14px;
+	padding: 1rem 1.1rem;
+}
+.chat-escalate h3 {
+	margin: 0;
+	font-size: 1.1rem;
+}
+.chat-escalate label {
+	display: grid;
+	gap: 0.3rem;
+	font-weight: 700;
+	font-size: 0.9rem;
+}
+.chat-escalate input,
+.chat-escalate textarea {
+	font: inherit;
+	font-weight: 400;
+	width: 100%;
+	padding: 0.6rem 0.8rem;
+	border: 2px solid var(--line);
+	border-radius: 10px;
+	background: #fff;
+	color: var(--ink);
+}
+.chat-escalate input:focus,
+.chat-escalate textarea:focus {
+	outline: none;
+	border-color: var(--violet);
+}
+.chat-escalate details {
+	font-size: 0.9rem;
+}
+.chat-escalate summary {
+	cursor: pointer;
+	font-weight: 700;
+	color: var(--indigo);
+}
+.chat-escalate dl {
+	margin: 0.6rem 0 0;
+	display: grid;
+	gap: 0.35rem;
+}
+.chat-escalate dl div {
+	display: flex;
+	gap: 0.75rem;
+}
+.chat-escalate dt {
+	flex: none;
+	width: 8rem;
+	color: var(--ink-soft);
+}
+.chat-escalate dd {
+	margin: 0;
+}
+.chat-send {
+	justify-content: center;
+}
+.chat-send:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+.chat-error {
+	margin: 0;
+	color: var(--emergency-dark);
+	font-weight: 700;
+	font-size: 0.9rem;
+}
+
+/* Sent confirmation */
+.chat-sent {
+	display: flex;
+	gap: 0.7rem;
+	padding: 1rem 1.1rem;
+	background: #eaf7ee;
+	border: 1px solid #b9e0c4;
+	border-radius: 14px;
+	color: #14452a;
+}
+.chat-sent svg {
+	flex: none;
+	margin-top: 0.15rem;
+}
+.chat-sent p {
+	margin: 0.2rem 0 0.5rem;
+}
+.chat-link {
+	font: inherit;
+	font-weight: 700;
+	background: none;
+	border: 0;
+	padding: 0;
+	color: var(--indigo);
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+/* Footer note */
+.chat-foot {
+	padding: 0.5rem 1rem;
+	font-size: 0.78rem;
+	color: var(--ink-soft);
+	background: #fff;
+	border-top: 1px solid var(--line);
+}
+
+/* Snappy entrance: 180ms, short stagger, no artificial typing delay */
+@keyframes chat-in {
+	from {
+		opacity: 0;
+		transform: translateY(8px);
+	}
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+.chat-user,
+.chat-block .chat-bot,
+.chat-opt,
+.chat-tile,
+.chat-advice,
+.chat-escalate,
+.chat-sent {
+	animation: chat-in 0.18s ease-out both;
+}
+.chat-opt,
+.chat-tile {
+	animation-delay: calc(min(var(--i, 0), 6) * 28ms);
+}
+
+@media (max-width: 640px) {
+	.chat {
+		height: calc(100dvh - 4.5rem);
+		margin: 0;
+		border-radius: 0;
+		border-left: 0;
+		border-right: 0;
+	}
+	.chat-escalate dl div {
+		flex-direction: column;
+		gap: 0;
+	}
+	.chat-escalate dt {
+		width: auto;
+	}
 }
