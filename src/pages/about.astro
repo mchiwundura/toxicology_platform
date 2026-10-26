@@ -2,7 +2,7 @@
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
-import { withBase } from '../consts';
+import { LINKEDIN_ICON, withBase } from '../consts';
 
 const description =
 	'Who we are, what we do, and the pharmacists behind the Drug and Toxicology Information Service at the University of Zimbabwe.';
@@ -71,11 +71,47 @@ const team = [
 		initials: 'LG',
 		lead: true,
 		bio: [
-			'Louis is the Director of DATIS and a lecturer in Pharmaceutics and Clinical Pharmacy at the University of Zimbabwe. He has led the service since 2016.',
-			'He holds a Bachelor of Pharmacy (Honours) and an MPhil in Medicine (Pharmacology and Toxicology) from UZ, and is currently completing doctoral research. His interests include neuropharmacology, toxicity testing, natural products, nanotoxicology and nanomedicine, and better ways to deliver traditional medicines.',
-			'He has supervised more than 40 honours research projects and has authored more than 10 publications.',
+			'Louis is the Director of DATIS and the Chairperson of the Department of Pharmacy and Pharmaceutical Sciences at the University of Zimbabwe, where he lectures in Pharmaceutics and Clinical Pharmacy.',
+			'He holds a Bachelor of Pharmacy (Honours) and an MPhil in Medicine (Pharmacology and Toxicology) from UZ, and is pursuing doctoral research. His interests include neuropharmacology, toxicity testing, natural products, nanotoxicology and nanomedicine, and better ways to deliver traditional medicines.',
+			'He has supervised more than 40 honours research students and has authored more than 10 publications, including journal articles and book chapters.',
 		],
 		focus: ['Pharmacology', 'Toxicology', 'Nanomedicine'],
+		links: [
+			{
+				label: 'University profile',
+				href: 'https://www.uz.ac.zw/index.php/chs-departments/255-prgoffdclinical-pharmacology-and-toxicology/staffclinical-pharmacology-and-toxicology/1928-mr-louis-gadaga-2',
+			},
+		],
+	},
+	{
+		name: 'Mr Shepard Mhlaba',
+		role: 'Assistant Director',
+		initials: 'SM',
+		lead: false,
+		bio: [
+			'Shepard is Assistant Director at DATIS and a pharmacist who has been part of the service since 2016, supporting drug information and toxicology.',
+			'At the International Pharmaceutical Federation (FIP) he is Global Lead for Early Career Training Strategy and a reviewer for the FIP Pharmacy Education Journal. He also chairs the FIP Young Pharmacists Group Africa.',
+			'His work has been recognised with the 2019 FIP Health and Medicines Information Section (HaMIS) Travel Grant and the 2019 FIP Young Pharmacists Group Professional Innovation Grant. He holds a Bachelor of Pharmacy from the University of Zimbabwe.',
+		],
+		focus: ['Workforce development', 'Pharmacy education', 'Medicines information'],
+		links: [
+			{ label: 'LinkedIn', href: 'https://www.linkedin.com/in/shepard-mhlaba-a4976b69' },
+		],
+	},
+	{
+		name: 'Mr Nicholas Muparadzi',
+		role: 'Pharmacist',
+		initials: 'NM',
+		lead: false,
+		bio: [
+			'Nicholas is a pharmacist at DATIS, where he has worked since 2019, and a researcher focused on medicines information and public health.',
+			'He has worked as a Data Support Coordinator in FIP’s Global Pharmaceutical Observatory and served on FIP’s Early Career Pharmaceutical Group Steering Committee as Chairperson of Public Relations in 2025. He was awarded the 2024 FIP HaMIS congress travel grant.',
+			'In Zimbabwe he has served on the PSZ council and is immediate past chairperson of Pharmacists Against Drug Abuse (PADA) and of the PSZ Mashonaland/Manicaland branch. His research covers harm reduction for methamphetamine use, nanomedicine and water purification. He holds a Bachelor of Pharmacy from UZ.',
+		],
+		focus: ['Medicines information', 'Harm reduction', 'Public health'],
+		links: [
+			{ label: 'LinkedIn', href: 'https://www.linkedin.com/in/nicholas-muparadzi-885754109' },
+		],
 	},
 	{
 		name: 'Mr Tawana Karemba',
@@ -87,17 +123,7 @@ const team = [
 			'He holds a Bachelor of Pharmacy from the University of Zimbabwe. His interests are in clinical pharmacology, medicines information and pharmacy education.',
 		],
 		focus: ['Clinical pharmacology', 'Medicines information', 'Pharmacy education'],
-	},
-	{
-		name: 'Mr Nicholas Muparadzi',
-		role: 'Supervisor',
-		initials: 'NM',
-		lead: false,
-		bio: [
-			'Nicholas is a pharmacist and supervisor at DATIS, where he has worked since 2019. He reviews medicine and poisoning enquiries and contributes to the service’s research output.',
-			'His research covers medicines information, harm reduction for drug use, and the use of nanotechnology in health. He has published on harm reduction for methamphetamine use in Zimbabwe and on nanomedicine and water purification, and also works as a tutor for pharmacy technicians.',
-		],
-		focus: ['Medicines information', 'Harm reduction', 'Nanotechnology'],
+		links: [],
 	},
 ];
 ---
@@ -238,6 +264,22 @@ const team = [
 												<li>{item}</li>
 											))}
 										</ul>
+										{member.links.length > 0 && (
+											<ul class="member-links" aria-label={`${member.name} profiles`}>
+												{member.links.map((link) => (
+													<li>
+														<a href={link.href} target="_blank" rel="noopener noreferrer">
+															{link.label === 'LinkedIn' && (
+																<svg viewBox="0 0 24 24" aria-hidden="true" width="16" height="16">
+																	<path fill="currentColor" d={LINKEDIN_ICON} />
+																</svg>
+															)}
+															{link.label}
+														</a>
+													</li>
+												))}
+											</ul>
+										)}
 									</div>
 								</li>
 							))
@@ -299,7 +341,7 @@ const team = [
 	.page-head h1 {
 		max-width: 20ch;
 	}
-	.lead {
+	.page-head .lead {
 		max-width: 62ch;
 		font-size: clamp(1.05rem, 1.6vw, 1.25rem);
 		color: var(--ink-soft);
@@ -441,7 +483,7 @@ const team = [
 		margin: 0;
 		padding: 0;
 		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
+		grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 		gap: 1.25rem;
 	}
 	.member {
@@ -514,6 +556,29 @@ const team = [
 		border: 1px solid var(--line);
 		font-size: 0.82rem;
 		color: var(--ink-soft);
+	}
+	.member-links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.4rem 1rem;
+		list-style: none;
+		margin: 1rem 0 0;
+		padding: 0.9rem 0 0;
+		border-top: 1px solid var(--line);
+	}
+	.member-links a {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
+		font-size: 0.9rem;
+		font-weight: 700;
+		text-decoration: none;
+	}
+	.member-links a:hover {
+		text-decoration: underline;
+	}
+	.member-links svg {
+		flex: none;
 	}
 
 	/* Closing call */
