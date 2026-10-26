@@ -13,15 +13,73 @@ const home = import.meta.env.BASE_URL;
 		<img src={withBase('/logo.png')} alt={SITE_TITLE} />
 	</a>	
 		</h2>
-		<div class="internal-links">
+		<div class="internal-links" id="primary-navigation">
 			<HeaderLink href="/">Home</HeaderLink>
 			<HeaderLink href="/blog">Blog</HeaderLink>
 			<HeaderLink href="/ce">Continued Education</HeaderLink>
 			<HeaderLink href="/about">About Us</HeaderLink>
+			<div class="mobile-social">
+				<SocialLinks />
+			</div>
 		</div>
-		<SocialLinks class="header-social" hideOnMobile />
+		<div class="header-actions">
+			<SocialLinks class="header-social" hideOnMobile />
+			<button
+				class="nav-toggle"
+				type="button"
+				aria-expanded="false"
+				aria-controls="primary-navigation"
+			>
+				<span class="sr-only">Menu</span>
+				<span class="nav-toggle-bars" aria-hidden="true">
+					<span></span>
+					<span></span>
+					<span></span>
+				</span>
+			</button>
+		</div>
 	</nav>
 </header>
+<script>
+	const toggles = document.querySelectorAll<HTMLButtonElement>('.nav-toggle');
+
+	toggles.forEach((toggle) => {
+		const menuId = toggle.getAttribute('aria-controls');
+		const menu = menuId ? document.getElementById(menuId) : null;
+		if (!menu) return;
+
+		const setOpen = (open: boolean) => {
+			toggle.setAttribute('aria-expanded', String(open));
+			menu.classList.toggle('is-open', open);
+		};
+
+		const isOpen = () => toggle.getAttribute('aria-expanded') === 'true';
+
+		toggle.addEventListener('click', () => setOpen(!isOpen()));
+
+		menu.addEventListener('click', (event) => {
+			if (event.target instanceof Element && event.target.closest('a')) setOpen(false);
+		});
+
+		document.addEventListener('keydown', (event) => {
+			if (event.key === 'Escape' && isOpen()) {
+				setOpen(false);
+				toggle.focus();
+			}
+		});
+
+		document.addEventListener('click', (event) => {
+			if (!(event.target instanceof Node)) return;
+			if (!menu.contains(event.target) && !toggle.contains(event.target)) setOpen(false);
+		});
+
+		// Reset the menu if the viewport grows past the mobile breakpoint.
+		const desktop = window.matchMedia('(min-width: 721px)');
+		desktop.addEventListener('change', (event) => {
+			if (event.matches) setOpen(false);
+		});
+	});
+</script>
 <style>
 	h2 a {
 	display: flex;
@@ -33,6 +91,8 @@ h2 img {
 	height: 45px;
 }
 	header {
+		position: relative;
+		z-index: 10;
 		margin: 0;
 		padding: 0 1em;
 		background: white;
@@ -61,5 +121,106 @@ h2 img {
 	nav a.active {
 		text-decoration: none;
 		border-bottom-color: var(--accent);
+	}
+
+	.header-actions {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+
+	.mobile-social {
+		display: none;
+	}
+
+	.nav-toggle {
+		display: none;
+		align-items: center;
+		justify-content: center;
+		width: 44px;
+		height: 44px;
+		padding: 0;
+		background: none;
+		border: 0;
+		border-radius: 8px;
+		color: var(--ink);
+		cursor: pointer;
+	}
+
+	.nav-toggle:hover {
+		background: var(--violet-soft);
+	}
+
+	.nav-toggle-bars {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		gap: 5px;
+		width: 24px;
+		height: 24px;
+	}
+
+	.nav-toggle-bars span {
+		display: block;
+		width: 100%;
+		height: 2px;
+		border-radius: 2px;
+		background: currentColor;
+		transition: transform 0.18s ease, opacity 0.18s ease;
+	}
+
+	.nav-toggle[aria-expanded='true'] .nav-toggle-bars span:nth-child(1) {
+		transform: translateY(7px) rotate(45deg);
+	}
+
+	.nav-toggle[aria-expanded='true'] .nav-toggle-bars span:nth-child(2) {
+		opacity: 0;
+	}
+
+	.nav-toggle[aria-expanded='true'] .nav-toggle-bars span:nth-child(3) {
+		transform: translateY(-7px) rotate(-45deg);
+	}
+
+	@media (max-width: 720px) {
+		.nav-toggle {
+			display: flex;
+		}
+
+		.internal-links {
+			display: none;
+			position: absolute;
+			top: 100%;
+			left: 0;
+			right: 0;
+			flex-direction: column;
+			align-items: stretch;
+			gap: 0.15rem;
+			max-height: calc(100dvh - 5rem);
+			overflow-y: auto;
+			padding: 0.5rem 1rem 1.25rem;
+			background: white;
+			border-top: 1px solid var(--line);
+			box-shadow: 0 12px 24px rgba(var(--black), 10%);
+		}
+
+		.internal-links.is-open {
+			display: flex;
+		}
+
+		.internal-links a {
+			display: block;
+			padding: 0.9rem 0.25rem;
+			border-bottom: 1px solid var(--line);
+		}
+
+		.internal-links a.active {
+			border-bottom-color: var(--accent);
+		}
+
+		.mobile-social {
+			display: flex;
+			justify-content: center;
+			padding-top: 1rem;
+		}
 	}
 </style>
