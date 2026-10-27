@@ -3,6 +3,7 @@ title: 'The role of AI in pharmacy practice'
 description: 'How artificial intelligence is reshaping patient care, inventory management, medication adherence and drug discovery in pharmacy — and the challenges that come with it.'
 pubDate: 'Jan 16 2025'
 author: 'DATIS'
+bulletin: 'DATIS Bulletin Magazine 01-2025.pdf'
 ---
 
 Artificial intelligence (AI) is rapidly transforming industries worldwide, and pharmacy practice is no exception. As the healthcare landscape becomes increasingly complex, AI offers innovative solutions to optimise pharmaceutical services, improve patient outcomes, and enhance operational efficiency. Its integration into pharmacy practice is reshaping the way pharmacists deliver care, making processes smarter, faster, and more patient-centred.

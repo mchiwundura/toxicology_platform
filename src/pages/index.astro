@@ -547,8 +547,8 @@ const faqs = [
 		margin: 0;
 		padding: 0;
 		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
-		gap: 1.5rem;
+		grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+		gap: 1.75rem;
 	}
 	.card {
 		display: flex;
@@ -556,20 +556,24 @@ const faqs = [
 		height: 100%;
 		background: #fff;
 		border: 1px solid var(--line);
-		border-radius: var(--radius);
+		border-radius: calc(var(--radius) + 4px);
 		overflow: hidden;
 		text-decoration: none;
 		color: var(--ink);
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+		transition: all 0.25s ease;
 	}
 	.card:hover {
-		border-color: var(--violet);
+		border-color: rgba(112, 57, 240, 0.5);
+		box-shadow: 0 12px 32px rgba(13, 20, 88, 0.12);
+		transform: translateY(-2px);
 	}
 	.card:hover h3 {
 		color: var(--violet);
 	}
 	.card-media {
 		position: relative;
-		background: var(--violet-soft);
+		background: linear-gradient(135deg, var(--violet-soft), #f8f6ff);
 	}
 	/* Posters are usually portrait or square: tweak the ratio to suit yours */
 	.card-media.poster {
@@ -592,17 +596,18 @@ const faqs = [
 	}
 	.badge {
 		position: absolute;
-		top: 0.75rem;
-		left: 0.75rem;
+		top: 0.9rem;
+		left: 0.9rem;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		min-width: 3.4rem;
-		padding: 0.4rem 0.5rem;
-		border-radius: 10px;
-		background: var(--navy);
+		min-width: 3.6rem;
+		padding: 0.5rem 0.6rem;
+		border-radius: 12px;
+		background: linear-gradient(135deg, var(--navy), var(--indigo));
 		color: #fff;
 		line-height: 1.1;
+		box-shadow: 0 4px 12px rgba(13, 20, 88, 0.3);
 	}
 	.badge .d {
 		font-size: 1.4rem;
@@ -613,7 +618,7 @@ const faqs = [
 		font-size: 0.85rem;
 	}
 	.card-body {
-		padding: 1rem 1.1rem 1.25rem;
+		padding: 1.25rem 1.4rem 1.5rem;
 	}
 	.card-body h3 {
 		font-size: 1.1rem;

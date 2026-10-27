@@ -3,6 +3,7 @@ title: 'The domino effect: how early career decisions shape a pharmacist''s futu
 description: 'Every career move has a ripple effect. A practical guide to choosing a first job, specialising, finding mentors and building a fulfilling pharmacy career.'
 pubDate: 'Apr 24 2025'
 author: 'DATIS'
+bulletin: 'DATIS Bulletin Magazine  05-2025.pdf'
 ---
 
 ## Introduction

@@ -1,0 +1,677 @@
+---
+import { CERTIFICATE_FEE_USD, PAYMENT_NAME, PAYMENT_NUMBER } from '../consts';
+
+export interface Props {
+	slug: string;
+	title: string;
+	ceDate: Date | string;
+	certificate?: boolean;
+}
+
+const { slug, title, ceDate, certificate = true } = Astro.props;
+---
+
+{certificate && (
+	<section class="certificate-request">
+		<div class="certificate-header">
+			<h2>Request Certificate</h2>
+			<button type="button" id="open-certificate-modal" class="request-btn">
+				Request Certificate
+			</button>
+		</div>
+
+		<div id="certificate-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="certificate-modal-title" tabindex="-1">
+			<div class="modal-backdrop" id="certificate-modal-backdrop"></div>
+			<div class="modal-content" role="document">
+				<div class="modal-header">
+					<h2 id="certificate-modal-title">Certificate Request</h2>
+					<button type="button" id="close-certificate-modal" class="close-btn" aria-label="Close">×</button>
+				</div>
+
+				<div class="modal-body">
+					<!-- Payment Information Block -->
+					<div class="payment-info">
+						<h3>Payment Information</h3>
+						<p><strong>Certificate fee:</strong> ${CERTIFICATE_FEE_USD} USD</p>
+						<p><strong>Cash:</strong> Can be paid at the DaTIS office at Parirenyatwa Hospital, under the UZ Department of Pharmacy and Pharmaceutical Sciences, close to the CHS New Building.</p>
+						<p><strong>Ecocash USD or Innbucks:</strong> Pay to {PAYMENT_NUMBER || '[Payment number to be provided]'} ({PAYMENT_NAME || '[Payment name to be provided]'}).</p>
+					</div>
+
+					<!-- Certificate Preview -->
+					<div class="preview-section">
+						<h3>Certificate Preview</h3>
+						<canvas id="certificate-preview-canvas" width="800" height="600" style="display:none;"></canvas>
+						<img id="certificate-preview-img" src="" alt="Certificate preview" class="preview-image" />
+					</div>
+
+					<form id="certificate-request-form" novalidate>
+						<!-- Hidden fields -->
+						<input type="hidden" name="ceSlug" value={slug} />
+						<input type="hidden" name="ceTitle" value={title} />
+
+						<!-- Honeypot field -->
+						<div class="honeypot" aria-hidden="true">
+							<label for="website">Website</label>
+							<input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
+						</div>
+
+						<!-- Full name -->
+						<div class="form-group">
+							<label for="fullName">Full name <span aria-label="required">*</span></label>
+							<input type="text" id="fullName" name="fullName" required aria-required="true" aria-describedby="fullName-help fullName-error" />
+							<small id="fullName-help">Enter your name exactly as it should appear on the certificate.</small>
+							<div id="fullName-error" class="error-message" aria-live="polite"></div>
+						</div>
+
+						<!-- Phone number -->
+						<div class="form-group">
+							<label for="phone">Phone number</label>
+							<input type="tel" id="phone" name="phone" aria-describedby="phone-error" />
+							<div id="phone-error" class="error-message" aria-live="polite"></div>
+						</div>
+
+						<!-- Email -->
+						<div class="form-group">
+							<label for="email">Email address <span aria-label="required">*</span></label>
+							<input type="email" id="email" name="email" required aria-required="true" aria-describedby="email-help email-error" />
+							<small id="email-help">Your certificate will be sent here.</small>
+							<div id="email-error" class="error-message" aria-live="polite"></div>
+						</div>
+
+						<!-- Payment -->
+						<div class="form-group">
+							<fieldset>
+								<legend>Payment <span aria-label="required">*</span></legend>
+								<div class="radio-group">
+									<label><input type="radio" name="payment" value="Paid Ecocash/Innbucks" required aria-required="true" /> Paid Ecocash/Innbucks</label>
+									<label><input type="radio" name="payment" value="Paid Cash" required aria-required="true" /> Paid Cash</label>
+									<label><input type="radio" name="payment" value="To pay after CE" required aria-required="true" /> To pay after CE</label>
+									<label><input type="radio" name="payment" value="Won't be needing a certificate" required aria-required="true" /> Won't be needing a certificate</label>
+									<label><input type="radio" name="payment" value="Other" required aria-required="true" /> Other</label>
+								</div>
+							</fieldset>
+							<div id="paymentOther-group" class="payment-other-group" style="display:none; margin-top:0.5em;">
+								<label for="paymentOther">Please specify</label>
+								<input type="text" id="paymentOther" name="paymentOther" />
+							</div>
+							<div id="payment-error" class="error-message" aria-live="polite"></div>
+						</div>
+
+						<!-- Proof of payment -->
+						<div class="form-group" id="proofOfPayment-group" style="display:none;">
+							<label for="proofOfPayment">Proof of payment <span aria-label="required">*</span></label>
+							<input type="file" id="proofOfPayment" name="proofOfPayment" accept="image/*,application/pdf" aria-describedby="proofOfPayment-error" />
+							<small>Accepted: image/* and application/pdf, max 10 MB</small>
+							<div id="proofOfPayment-error" class="error-message" aria-live="polite"></div>
+						</div>
+
+						<!-- Recommendations -->
+						<div class="form-group">
+							<label for="recommendations">Any recommendations or suggestions on how we can improve our service delivery?</label>
+							<textarea id="recommendations" name="recommendations" rows="4"></textarea>
+						</div>
+
+						<!-- Future topics -->
+						<div class="form-group">
+							<label for="futureTopics">Future topic suggestions</label>
+							<textarea id="futureTopics" name="futureTopics" rows="4"></textarea>
+						</div>
+
+						<div id="form-error" class="error-message" aria-live="polite"></div>
+						<div id="form-success" class="success-message" aria-live="polite"></div>
+
+						<button type="submit" id="submit-certificate" class="submit-btn">Submit Request</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+)}
+
+<style>
+	.certificate-request {
+		width: 720px;
+		max-width: calc(100% - 2em);
+		margin: 2.5em auto;
+		padding: 0;
+	}
+
+	.certificate-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 1.25em;
+		flex-wrap: wrap;
+		gap: 0.75em;
+		background: linear-gradient(135deg, var(--navy), var(--indigo));
+		color: #fff;
+		padding: 1.5rem 2rem;
+		border-radius: var(--radius);
+		box-shadow: 0 8px 24px rgba(13, 20, 88, 0.15);
+	}
+
+	.certificate-header h2 {
+		margin: 0;
+		color: #fff;
+		font-size: clamp(1.4rem, 2.5vw, 1.8rem);
+	}
+
+	.request-btn,
+	.submit-btn,
+	.close-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.8rem 1.6rem;
+		border-radius: 999px;
+		font-weight: 700;
+		font-size: 1rem;
+		line-height: 1.2;
+		text-decoration: none;
+		border: 2px solid transparent;
+		cursor: pointer;
+		font-family: inherit;
+		transition: all 0.2s ease;
+	}
+
+	.request-btn {
+		background: var(--lime);
+		color: var(--indigo-deep);
+	}
+
+	.request-btn:hover {
+		background: #eefa8f;
+		color: var(--indigo-deep);
+		transform: translateY(-1px);
+		box-shadow: 0 4px 12px rgba(224, 246, 83, 0.3);
+	}
+
+	.submit-btn {
+		background: var(--violet);
+		color: #fff;
+		margin-top: 0.5em;
+	}
+
+	.submit-btn:hover {
+		background: var(--indigo);
+		color: #fff;
+		transform: translateY(-1px);
+		box-shadow: 0 4px 12px rgba(112, 57, 240, 0.3);
+	}
+
+	.submit-btn:disabled {
+		opacity: 0.6;
+		cursor: not-allowed;
+		transform: none;
+		box-shadow: none;
+	}
+
+	.close-btn {
+		background: transparent;
+		color: var(--ink);
+		border-color: var(--line);
+		font-size: 1.8em;
+		line-height: 1;
+		padding: 0 0.4em;
+		width: 2rem;
+		height: 2rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 50%;
+	}
+
+	.close-btn:hover {
+		background: var(--violet-soft);
+		color: var(--violet);
+		border-color: var(--violet);
+	}
+
+	.modal {
+		display: none;
+		position: fixed;
+		z-index: 1000;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.modal.active {
+		display: flex;
+	}
+
+	.modal-backdrop {
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		background: rgba(13, 20, 88, 0.7);
+		backdrop-filter: blur(4px);
+	}
+
+	.modal-content {
+		position: relative;
+		background: #ffffff;
+		max-width: 800px;
+		width: calc(100% - 2em);
+		max-height: 90vh;
+		overflow-y: auto;
+		border: none;
+		border-radius: var(--radius);
+		box-shadow: 0 20px 60px rgba(13, 20, 88, 0.3);
+		z-index: 1001;
+	}
+
+	.modal-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 1.5rem 2rem;
+		border-bottom: 1px solid var(--line);
+		background: linear-gradient(90deg, var(--violet-soft), transparent);
+		border-radius: var(--radius) var(--radius) 0 0;
+	}
+
+	.modal-header h2 {
+		margin: 0;
+		color: var(--navy);
+		font-size: 1.6rem;
+	}
+
+	.modal-body {
+		padding: 2rem;
+	}
+
+	.payment-info {
+		background: linear-gradient(135deg, var(--violet-soft), #f8f6ff);
+		padding: 1.25rem 1.5rem;
+		border: 1px solid rgba(112, 57, 240, 0.3);
+		border-radius: var(--radius);
+		margin-bottom: 1.5em;
+	}
+
+	.payment-info h3 {
+		margin-top: 0;
+		color: var(--navy);
+		margin-bottom: 0.75rem;
+	}
+
+	.payment-info p {
+		margin-bottom: 0.5rem;
+		color: var(--ink);
+	}
+
+	.payment-info p:last-child {
+		margin-bottom: 0;
+	}
+
+	.preview-section {
+		margin-bottom: 1.5em;
+		text-align: center;
+		background: #fafafa;
+		padding: 1.25rem;
+		border-radius: var(--radius);
+		border: 1px solid var(--line);
+	}
+
+	.preview-section h3 {
+		text-align: left;
+		color: var(--navy);
+		margin-bottom: 0.75rem;
+	}
+
+	.preview-image {
+		max-width: 100%;
+		height: auto;
+		border: 1px solid var(--line);
+		border-radius: calc(var(--radius) - 4px);
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+	}
+
+	.form-group {
+		margin-bottom: 1.25em;
+	}
+
+	label {
+		display: block;
+		margin-bottom: 0.4em;
+		font-weight: 600;
+		color: var(--navy);
+	}
+
+	input[type="text"],
+	input[type="email"],
+	input[type="tel"],
+	input[type="file"],
+	textarea {
+		width: 100%;
+		padding: 0.7em 0.9em;
+		font-size: 1em;
+		font-family: inherit;
+		border: 1px solid var(--line);
+		border-radius: calc(var(--radius) - 6px);
+		box-sizing: border-box;
+		background: #fff;
+		transition: border-color 0.2s ease, box-shadow 0.2s ease;
+	}
+
+	input[type="text"]:focus,
+	input[type="email"]:focus,
+	input[type="tel"]:focus,
+	input[type="file"]:focus,
+	textarea:focus {
+		outline: none;
+		border-color: var(--violet);
+		box-shadow: 0 0 0 3px rgba(112, 57, 240, 0.1);
+	}
+
+	textarea {
+		resize: vertical;
+		min-height: 100px;
+	}
+
+	fieldset {
+		border: 1px solid var(--line);
+		border-radius: calc(var(--radius) - 6px);
+		padding: 1em;
+		background: #fafafa;
+	}
+
+	legend {
+		font-weight: 600;
+		padding: 0 0.5em;
+		color: var(--navy);
+	}
+
+	.radio-group {
+		display: flex;
+		flex-direction: column;
+		gap: 0.4em;
+	}
+
+	.radio-group label {
+		display: flex;
+		align-items: center;
+		gap: 0.6em;
+		font-weight: normal;
+		margin-bottom: 0;
+		padding: 0.5rem 0.7rem;
+		background: #fff;
+		border: 1px solid var(--line);
+		border-radius: calc(var(--radius) - 8px);
+		cursor: pointer;
+		transition: all 0.15s ease;
+		color: var(--ink);
+	}
+
+	.radio-group label:hover {
+		background: var(--violet-soft);
+		border-color: rgba(112, 57, 240, 0.4);
+	}
+
+	.radio-group input[type="radio"] {
+		width: 1.1em;
+		height: 1.1em;
+		accent-color: var(--violet);
+		cursor: pointer;
+	}
+
+	.radio-group input[type="radio"]:checked + span,
+	.radio-group label:has(input[type="radio"]:checked) {
+		background: var(--violet-soft);
+		border-color: var(--violet);
+		color: var(--navy);
+		font-weight: 500;
+	}
+
+	small {
+		display: block;
+		margin-top: 0.35em;
+		color: var(--ink-soft);
+		font-size: 0.9rem;
+	}
+
+	.error-message {
+		color: var(--emergency);
+		margin-top: 0.35em;
+		min-height: 1.2em;
+		font-size: 0.95rem;
+		font-weight: 500;
+	}
+
+	.success-message {
+		color: #22c55e;
+		margin-top: 0.35em;
+		min-height: 1.2em;
+		font-size: 0.95rem;
+		font-weight: 500;
+	}
+
+	.honeypot {
+		position: absolute;
+		left: -9999px;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+	}
+
+	@media (max-width: 600px) {
+		.certificate-request {
+			max-width: calc(100% - 1em);
+		}
+
+		.certificate-header {
+			flex-direction: column;
+			align-items: flex-start;
+			padding: 1.25rem 1.5rem;
+		}
+
+		.modal-content {
+			max-height: 95vh;
+			width: calc(100% - 1em);
+		}
+
+		.modal-header {
+			padding: 1.25rem 1.5rem;
+		}
+
+		.modal-body {
+			padding: 1.5rem;
+		}
+	}
+</style>
+
+<script>
+	import { submitCertificateRequest } from '../lib/certificates';
+	import { drawCertificatePreview } from '../lib/certificatePreview';
+
+	const modal = document.getElementById('certificate-modal') as HTMLElement;
+	const openBtn = document.getElementById('open-certificate-modal') as HTMLButtonElement;
+	const closeBtn = document.getElementById('close-certificate-modal') as HTMLButtonElement;
+	const backdrop = document.getElementById('certificate-modal-backdrop') as HTMLElement;
+	const form = document.getElementById('certificate-request-form') as HTMLFormElement;
+	const submitBtn = document.getElementById('submit-certificate') as HTMLButtonElement;
+
+	const fullNameInput = document.getElementById('fullName') as HTMLInputElement;
+	const paymentRadios = document.getElementsByName('payment') as NodeListOf<HTMLInputElement>;
+	const paymentOtherGroup = document.getElementById('paymentOther-group') as HTMLElement;
+	const paymentOtherInput = document.getElementById('paymentOther') as HTMLInputElement;
+	const proofOfPaymentGroup = document.getElementById('proofOfPayment-group') as HTMLElement;
+	const proofOfPaymentInput = document.getElementById('proofOfPayment') as HTMLInputElement;
+
+	const canvas = document.getElementById('certificate-preview-canvas') as HTMLCanvasElement;
+	const previewImg = document.getElementById('certificate-preview-img') as HTMLImageElement;
+
+	const ceTitle = (document.querySelector('input[name="ceTitle"]') as HTMLInputElement)?.value || '';
+	const ceDateAttr = document.querySelector('[data-ce-date]')?.getAttribute('data-ce-date') || new Date().toISOString();
+	const ceDate = new Date(ceDateAttr);
+
+	function updatePreview() {
+		const name = fullNameInput.value || '';
+		try {
+			const dataUrl = drawCertificatePreview(canvas, {
+				name,
+				ceTitle,
+				ceDate,
+			});
+			previewImg.src = dataUrl;
+		} catch (e) {
+			console.error('Preview error:', e);
+		}
+	}
+
+	fullNameInput.addEventListener('input', updatePreview);
+	updatePreview();
+
+	// Modal open/close
+	openBtn?.addEventListener('click', () => {
+		modal.classList.add('active');
+		modal.focus();
+		updatePreview();
+	});
+
+	const closeModal = () => {
+		modal.classList.remove('active');
+		// Clear form and messages
+		form.reset();
+		updatePreview();
+		document.getElementById('fullName-error')!.textContent = '';
+		document.getElementById('email-error')!.textContent = '';
+		document.getElementById('payment-error')!.textContent = '';
+		document.getElementById('proofOfPayment-error')!.textContent = '';
+		document.getElementById('form-error')!.textContent = '';
+		document.getElementById('form-success')!.textContent = '';
+		paymentOtherGroup.style.display = 'none';
+		proofOfPaymentGroup.style.display = 'none';
+		submitBtn.disabled = false;
+	};
+
+	closeBtn?.addEventListener('click', closeModal);
+	backdrop?.addEventListener('click', closeModal);
+
+	// Payment radio handling
+	for (let i = 0; i < paymentRadios.length; i++) {
+		paymentRadios[i].addEventListener('change', () => {
+			const selected = Array.from(paymentRadios).find(r => r.checked)?.value;
+			
+			// Show/hide "Other" text input
+			if (selected === 'Other') {
+				paymentOtherGroup.style.display = 'block';
+			} else {
+				paymentOtherGroup.style.display = 'none';
+				paymentOtherInput.value = '';
+			}
+
+			// Show/hide proof of payment
+			if (selected === 'Paid Ecocash/Innbucks') {
+				proofOfPaymentGroup.style.display = 'block';
+			} else {
+				proofOfPaymentGroup.style.display = 'none';
+				proofOfPaymentInput.value = '';
+				document.getElementById('proofOfPayment-error')!.textContent = '';
+			}
+
+			document.getElementById('payment-error')!.textContent = '';
+		});
+	}
+
+	// Form validation and submission
+	form.addEventListener('submit', async (e) => {
+		e.preventDefault();
+
+		// Clear previous messages
+		document.getElementById('fullName-error')!.textContent = '';
+		document.getElementById('email-error')!.textContent = '';
+		document.getElementById('payment-error')!.textContent = '';
+		document.getElementById('proofOfPayment-error')!.textContent = '';
+		document.getElementById('form-error')!.textContent = '';
+		document.getElementById('form-success')!.textContent = '';
+
+		let valid = true;
+
+		// Honeypot check
+		const honeypot = (document.getElementById('website') as HTMLInputElement).value;
+		if (honeypot) {
+			// Silently reject spam
+			return;
+		}
+
+		// Full name
+		if (!fullNameInput.value.trim()) {
+			document.getElementById('fullName-error')!.textContent = 'Full name is required.';
+			valid = false;
+		}
+
+		// Email
+		const emailInput = document.getElementById('email') as HTMLInputElement;
+		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		if (!emailInput.value.trim()) {
+			document.getElementById('email-error')!.textContent = 'Email address is required.';
+			valid = false;
+		} else if (!emailRegex.test(emailInput.value.trim())) {
+			document.getElementById('email-error')!.textContent = 'Please enter a valid email address.';
+			valid = false;
+		}
+
+		// Payment
+		const selectedPayment = Array.from(paymentRadios).find(r => r.checked)?.value;
+		if (!selectedPayment) {
+			document.getElementById('payment-error')!.textContent = 'Please select a payment option.';
+			valid = false;
+		} else if (selectedPayment === 'Other' && !paymentOtherInput.value.trim()) {
+			document.getElementById('payment-error')!.textContent = 'Please specify the payment option.';
+			valid = false;
+		}
+
+		// Proof of payment
+		if (selectedPayment === 'Paid Ecocash/Innbucks') {
+			if (proofOfPaymentInput.files && proofOfPaymentInput.files.length > 0) {
+				const file = proofOfPaymentInput.files[0];
+				if (file.size > 10 * 1024 * 1024) {
+					document.getElementById('proofOfPayment-error')!.textContent = 'File size must be less than 10 MB.';
+					valid = false;
+				}
+			} else {
+				document.getElementById('proofOfPayment-error')!.textContent = 'Proof of payment is required when paying via Ecocash/Innbucks.';
+				valid = false;
+			}
+		}
+
+		if (!valid) {
+			return;
+		}
+
+		// Prepare form data
+		const formData = new FormData(form);
+		
+		// If payment is "Other", combine with paymentOther
+		if (selectedPayment === 'Other') {
+			formData.set('payment', `Other: ${paymentOtherInput.value.trim()}`);
+		}
+
+		submitBtn.disabled = true;
+		submitBtn.textContent = 'Submitting...';
+
+		try {
+			const result = await submitCertificateRequest(formData);
+			if (result.success) {
+				document.getElementById('form-success')!.textContent = 'Request submitted successfully!';
+				// Optionally close modal after delay
+				setTimeout(() => {
+					closeModal();
+				}, 2000);
+			} else {
+				document.getElementById('form-error')!.textContent = result.message || 'An error occurred. Please try again.';
+			}
+		} catch (error) {
+			document.getElementById('form-error')!.textContent = 'An error occurred. Please try again.';
+		} finally {
+			submitBtn.disabled = false;
+			submitBtn.textContent = 'Submit Request';
+		}
+	});
+</script>

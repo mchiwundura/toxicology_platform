@@ -3,6 +3,7 @@ title: 'The impact of long working hours on pharmacists: balancing professional 
 description: 'Long shifts affect pharmacist stress, patient safety and personal health. This article reviews the evidence and outlines international best practices for a more sustainable working environment.'
 pubDate: 'Mar 20 2025'
 author: 'DATIS'
+bulletin: 'DATIS Bulletin Magazine 03-2025.pdf'
 ---
 
 Pharmacists play a pivotal role in healthcare, ensuring the safe and effective use of medications. However, the demanding nature of their profession — characterised by long hours, shift work, and high-pressure environments — can significantly impact both their professional performance and personal well-being.

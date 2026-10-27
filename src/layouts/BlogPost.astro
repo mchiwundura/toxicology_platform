@@ -5,10 +5,12 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
+import { withBase } from '../consts';
 
 type Props = CollectionEntry<'blog'>['data'];
 
-const { title, description, pubDate, updatedDate, heroImage, author } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, author, bulletin, source } = Astro.props;
+const resourceLink = bulletin || source;
 ---
 
 <html lang="en">
@@ -83,6 +85,19 @@ const { title, description, pubDate, updatedDate, heroImage, author } = Astro.pr
 						<hr />
 					</div>
 					<slot />
+					{resourceLink && resourceLink.trim() !== '' && (
+						<div style="margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--line);">
+							<a
+								href={resourceLink.startsWith('http') ? resourceLink : withBase(resourceLink.startsWith('/') ? resourceLink : `/bulletins/${resourceLink}`)}
+								download={!resourceLink.startsWith('http')}
+								target={resourceLink.startsWith('http') ? '_blank' : undefined}
+								rel={resourceLink.startsWith('http') ? 'noopener noreferrer' : undefined}
+								class="btn btn-violet"
+							>
+								Download Bulletin / Source
+							</a>
+						</div>
+					)}
 				</div>
 			</article>
 		</main>

@@ -3,6 +3,7 @@ title: 'The psychology of money: lessons for pharmacists'
 description: 'Ten practical lessons from Morgan Housel''s The Psychology of Money, adapted for pharmacists building sustainable careers and pharmacy businesses.'
 pubDate: 'Jan 16 2025'
 author: 'DATIS'
+bulletin: 'DATIS Bulletin Magazine 01-2025.pdf'
 ---
 
 Morgan Housel's *The Psychology of Money* explores the emotional and psychological factors influencing how people think about and manage money. For pharmacists — whether community practitioners, wholesalers, or entrepreneurs — the lessons in this book can offer profound insights into financial decision-making, long-term planning, and achieving professional and personal financial well-being. Below are key takeaways adapted for pharmacists.

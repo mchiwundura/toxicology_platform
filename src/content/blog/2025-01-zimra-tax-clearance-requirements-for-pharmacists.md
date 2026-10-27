@@ -3,6 +3,7 @@ title: 'Unpacking the new ZIMRA tax clearance requirements for pharmacists'
 description: 'What pharmacists need to know about the Tax Clearance Certificate now required for professional registration and licence renewal in Zimbabwe.'
 pubDate: 'Jan 16 2025'
 author: 'DATIS'
+bulletin: 'DATIS Bulletin Magazine 01-2025.pdf'
 ---
 
 The Zimbabwe Revenue Authority (ZIMRA) has introduced amendments under Section 80A of the Income Tax Act [Chapter 23:06], which mandate the submission of a valid Tax Clearance Certificate (TCC) for professional registration and licensing across various professions, including pharmacists. These requirements are part of ZIMRA's drive to enhance compliance and streamline tax administration. Here's what pharmacists need to know about these changes and how to navigate them efficiently.

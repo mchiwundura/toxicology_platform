@@ -3,6 +3,7 @@ title: 'Healthy beginnings, hopeful futures: World Health Day 2025'
 description: 'World Health Day 2025 focused on maternal and newborn health. Here are five key facts about the campaign, its goals and the global push to end preventable deaths.'
 pubDate: 'Apr 24 2025'
 author: 'DATIS'
+bulletin: 'DATIS Bulletin Magazine  05-2025.pdf'
 ---
 
 The World Health Organization (WHO) initiated a year-long campaign starting on World Health Day 2025 to enhance maternal and newborn health globally.

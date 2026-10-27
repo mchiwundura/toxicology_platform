@@ -1,10 +1,11 @@
 ---
 import { type CollectionEntry, getCollection, render } from 'astro:content';
 import BlogPost from '../../layouts/BlogPost.astro';
+import CertificateRequest from '../../components/CertificateRequest.astro';
+import { withBase } from '../../consts';
 
 export async function getStaticPaths() {
 	const posts = await getCollection('ce');
-	console.log(posts);
 	return posts.map((post) => ({
 		params: { slug: post.id },
 		props: post,
@@ -14,8 +15,25 @@ type Props = CollectionEntry<'ce'>;
 
 const post = Astro.props;
 const { Content } = await render(post);
----
+const { title, date, certificate = true, presentation } = post.data;
+const slug = post.id;
+--- 
 
 <BlogPost {...post.data}>
 	<Content />
+	{presentation && presentation.trim() !== '' && (
+		<div style="width: 720px; max-width: calc(100% - 2em); margin: 1.5em auto 0; padding: 0 1em;">
+			<a
+				href={presentation.startsWith('http') ? presentation : withBase(presentation.startsWith('/') ? presentation : `/ce/${presentation}`)}
+				download={!presentation.startsWith('http')}
+				target={presentation.startsWith('http') ? '_blank' : undefined}
+				rel={presentation.startsWith('http') ? 'noopener noreferrer' : undefined}
+				class="btn btn-violet"
+				style="margin-top: 1rem;"
+			>
+				Download Presentation (PDF)
+			</a>
+		</div>
+	)}
+	<CertificateRequest slug={slug} title={title} ceDate={date} certificate={certificate} />
 </BlogPost>

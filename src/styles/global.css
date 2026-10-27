@@ -136,7 +136,7 @@ p {
 	display: inline-flex;
 	align-items: center;
 	gap: 0.5rem;
-	padding: 0.8rem 1.5rem;
+	padding: 0.85rem 1.7rem;
 	border-radius: 999px;
 	font-weight: 700;
 	font-size: 1rem;
@@ -144,6 +144,16 @@ p {
 	text-decoration: none;
 	border: 2px solid transparent;
 	cursor: pointer;
+	font-family: inherit;
+	transition: all 0.2s ease;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+.btn:hover {
+	transform: translateY(-1px);
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+.btn:active {
+	transform: translateY(0);
 }
 .btn-primary {
 	background: var(--lime);
@@ -152,6 +162,7 @@ p {
 .btn-primary:hover {
 	background: #eefa8f;
 	color: var(--indigo-deep);
+	box-shadow: 0 4px 14px rgba(224, 246, 83, 0.4);
 }
 .btn-violet {
 	background: var(--violet);
@@ -160,14 +171,27 @@ p {
 .btn-violet:hover {
 	background: var(--indigo);
 	color: #fff;
+	box-shadow: 0 4px 14px rgba(112, 57, 240, 0.4);
 }
 .btn-outline-light {
-	border-color: rgba(255, 255, 255, 0.55);
+	border-color: rgba(255, 255, 255, 0.7);
 	color: #fff;
+	background: rgba(255, 255, 255, 0.05);
 }
 .btn-outline-light:hover {
-	background: rgba(255, 255, 255, 0.12);
+	background: rgba(255, 255, 255, 0.18);
+	border-color: #fff;
 	color: #fff;
+}
+.btn-outline {
+	border-color: var(--violet);
+	color: var(--violet);
+	background: transparent;
+}
+.btn-outline:hover {
+	background: var(--violet-soft);
+	color: var(--indigo);
+	border-color: var(--indigo);
 }
 .btn-emergency {
 	background: var(--emergency);
@@ -176,6 +200,15 @@ p {
 .btn-emergency:hover {
 	background: var(--emergency-dark);
 	color: #fff;
+	box-shadow: 0 4px 14px rgba(201, 24, 58, 0.4);
+}
+.btn-light {
+	background: #fff;
+	color: var(--navy);
+}
+.btn-light:hover {
+	background: var(--cream);
+	color: var(--indigo);
 }
 
 textarea {

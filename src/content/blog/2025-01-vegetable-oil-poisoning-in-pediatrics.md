@@ -3,6 +3,7 @@ title: 'Vegetable oil poisoning in paediatrics: a misguided remedy for baby coli
 description: 'Why vegetable oils are a risky home remedy for infant colic, the harm they can cause, and the evidence-based alternatives caregivers should use instead.'
 pubDate: 'Jan 16 2025'
 author: 'DATIS'
+bulletin: 'DATIS Bulletin Magazine 01-2025.pdf'
 ---
 
 Colic, characterised by excessive and inconsolable crying in infants, is a distressing condition that often drives caregivers to seek unconventional remedies. In some cases, vegetable oils (such as castor oil or coconut oil) are improperly administered orally or applied topically as a traditional treatment for colic. While these oils are widely used in households, their inappropriate use in paediatric care raises significant safety concerns.

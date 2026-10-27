@@ -3,6 +3,7 @@ title: 'Gepotidacin: a new hope in the battle against antibiotic resistance'
 description: 'A look at gepotidacin, the first in a new class of oral antibiotics, its novel mechanism of action, clinical trial results and what it could mean for resistant infections.'
 pubDate: 'Mar 20 2025'
 author: 'Fackwell Mateo, BPharm (Hons)'
+bulletin: 'DATIS Bulletin Magazine 03-2025.pdf'
 ---
 
 ## Introduction

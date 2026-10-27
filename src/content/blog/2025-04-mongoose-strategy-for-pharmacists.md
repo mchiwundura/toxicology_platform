@@ -3,6 +3,7 @@ title: 'The mongoose strategy for pharmacists: a detailed explanation'
 description: 'Agility, foresight and adaptability: a practical 15-point strategy for pharmacists navigating regulatory change, technology, supply chains and an evolving healthcare landscape.'
 pubDate: 'Apr 24 2025'
 author: 'Luckmore Bunu, MSc., B.Pharm Hons., MFIP'
+bulletin: 'DATIS Bulletin Magazine  05-2025.pdf'
 ---
 
 The mongoose, renowned for its agility, foresight, and adaptability, serves as a metaphor for pharmacists navigating complex challenges. Below is a comprehensive strategy structured around proactive engagement, rapid adaptation, and targeted problem-solving, with concrete examples.

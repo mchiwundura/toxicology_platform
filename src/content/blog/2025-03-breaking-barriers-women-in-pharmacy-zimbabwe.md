@@ -3,6 +3,7 @@ title: 'Breaking barriers: celebrating women in pharmacy in Zimbabwe'
 description: 'Women in Zimbabwe have moved pharmacy forward in academia, industry, regulation and community practice. This article celebrates their contributions and the work still needed.'
 pubDate: 'Mar 20 2025'
 author: 'DATIS'
+bulletin: 'DATIS Bulletin Magazine 03-2025.pdf'
 ---
 
 International Women's Day is a time to celebrate the achievements of women across the globe and to acknowledge their contributions in various fields. In Zimbabwe, female pharmacists play an indispensable role in shaping the healthcare landscape, ensuring access to quality medicines, advocating for public health, and driving innovation in pharmaceutical practice.

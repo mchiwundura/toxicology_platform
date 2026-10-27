@@ -3,6 +3,7 @@ title: 'Pharmacists can do more in public health: lessons from the COVID-19 pand
 description: 'The pandemic showed what pharmacists can contribute beyond dispensing. Zimbabwe can build on those lessons to strengthen public health, disease prevention and medicine access.'
 pubDate: 'Mar 20 2025'
 author: 'DATIS'
+bulletin: 'DATIS Bulletin Magazine 03-2025.pdf'
 ---
 
 The COVID-19 pandemic highlighted the critical role of pharmacists in public health, demonstrating their ability to enhance healthcare delivery beyond traditional dispensing roles. In Zimbabwe, where public health challenges such as infectious diseases, non-communicable diseases (NCDs), and limited healthcare accessibility persist, pharmacists should be granted expanded roles in public health initiatives. This article explores why pharmacists need to be more involved in public health and outlines key areas where their expertise can significantly improve health outcomes.

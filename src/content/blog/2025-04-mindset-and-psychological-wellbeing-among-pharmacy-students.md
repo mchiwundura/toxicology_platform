@@ -3,6 +3,7 @@ title: 'Exploring the link between mindset and psychological wellbeing among pha
 description: 'A study of fourth-year pharmacy students in Zimbabwe found that a growth mindset was associated with better psychological wellbeing. Here is the abstract and what it means for educators.'
 pubDate: 'Apr 24 2025'
 author: 'Kundai Nyanganya, Tinashe Mudzviti, Paul Gavaza'
+bulletin: 'DATIS Bulletin Magazine  05-2025.pdf'
 ---
 
 **Research**

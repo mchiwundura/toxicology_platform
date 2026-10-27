@@ -12,6 +12,8 @@ const blog = defineCollection({
 			updatedDate: z.coerce.date().optional(),
 			author: z.string().optional(),
 			heroImage: z.optional(image()),
+			bulletin: z.string().optional(),
+			source: z.string().optional(),
 		}),
 });
 
@@ -25,6 +27,8 @@ const ce = defineCollection({
 			date: z.coerce.date(),
 			updatedDate: z.coerce.date().optional(),
 			heroImage: z.optional(image()),
+			certificate: z.boolean().default(true),
+			presentation: z.string().optional(),
 		}),
 });
 

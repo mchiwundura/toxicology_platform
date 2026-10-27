@@ -36,3 +36,8 @@ export const SOCIAL_LINKS = [
 // Emergency numbers
 export const EMERGENCY_NUMBER = '+263 77 214 3333'; // TODO: real emergency line
 export const POISON_INFORMATION_NUMBER = '42933452'; // TODO: real poison information line
+
+// Certificate request constants
+export const CERTIFICATE_FEE_USD = 5;
+export const PAYMENT_NUMBER = ''; // TODO: Fill in the payment number
+export const PAYMENT_NAME = ''; // TODO: Fill in the payment name
