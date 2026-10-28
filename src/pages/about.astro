@@ -1,7 +1,12 @@
 ---
+import { Image } from 'astro:assets';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
+import louisGadaga from '../assets/staff/louis_gadaga.jpg';
+import nicholasMuparadzi from '../assets/staff/nicholas_muparadzi.jpg';
+import shepardMhlaba from '../assets/staff/shepard_malaba.jpg';
+import tawanaKaremba from '../assets/staff/tawanashe_karemba.jpg';
 import { LINKEDIN_ICON, withBase } from '../consts';
 
 const description =
@@ -69,6 +74,7 @@ const team = [
 		name: 'Mr Louis Gadaga',
 		role: 'Director',
 		initials: 'LG',
+		photo: louisGadaga,
 		lead: true,
 		bio: [
 			'Louis is the Director of DATIS and the Chairperson of the Department of Pharmacy and Pharmaceutical Sciences at the University of Zimbabwe, where he lectures in Pharmaceutics and Clinical Pharmacy.',
@@ -87,6 +93,7 @@ const team = [
 		name: 'Mr Shepard Mhlaba',
 		role: 'Assistant Director',
 		initials: 'SM',
+		photo: shepardMhlaba,
 		lead: false,
 		bio: [
 			'Shepard is Assistant Director at DATIS and a pharmacist who has been part of the service since 2016, supporting drug information and toxicology.',
@@ -102,6 +109,7 @@ const team = [
 		name: 'Mr Nicholas Muparadzi',
 		role: 'Pharmacist',
 		initials: 'NM',
+		photo: nicholasMuparadzi,
 		lead: false,
 		bio: [
 			'Nicholas is a pharmacist at DATIS, where he has worked since 2019, and a researcher focused on medicines information and public health.',
@@ -117,6 +125,7 @@ const team = [
 		name: 'Mr Tawana Karemba',
 		role: 'Supervisor',
 		initials: 'TK',
+		photo: tawanaKaremba,
 		lead: false,
 		bio: [
 			'Tawana is a pharmacist and supervisor at DATIS. He helps run the day-to-day enquiry service and supports the pharmacists who answer questions from the public and from health facilities.',
@@ -251,7 +260,18 @@ const team = [
 							team.map((member) => (
 								<li class:list={['member', { lead: member.lead }]}>
 									<div class="avatar" aria-hidden="true">
-										{member.initials}
+										{member.photo ? (
+											<Image
+												src={member.photo}
+												alt=""
+												width={200}
+												height={200}
+												loading="lazy"
+												decoding="async"
+											/>
+										) : (
+											member.initials
+										)}
 									</div>
 									<div class="member-body">
 										<h3>{member.name}</h3>
@@ -515,6 +535,14 @@ const team = [
 		font-weight: 700;
 		font-size: 1.1rem;
 		letter-spacing: 0.04em;
+		overflow: hidden;
+		box-shadow: 0 0 0 1px var(--line);
+	}
+	.avatar img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
 	}
 	.member.lead .avatar {
 		width: 5rem;
