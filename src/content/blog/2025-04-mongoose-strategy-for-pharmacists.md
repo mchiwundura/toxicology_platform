@@ -3,6 +3,7 @@ title: 'The mongoose strategy for pharmacists: a detailed explanation'
 description: 'Agility, foresight and adaptability: a practical 15-point strategy for pharmacists navigating regulatory change, technology, supply chains and an evolving healthcare landscape.'
 pubDate: 'Apr 24 2025'
 author: 'Luckmore Bunu, MSc., B.Pharm Hons., MFIP'
+heroImage: '../../assets/blog/mongoose_strategy.png'
 bulletin: 'DATIS Bulletin Magazine  05-2025.pdf'
 ---
 

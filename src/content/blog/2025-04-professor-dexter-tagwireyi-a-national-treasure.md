@@ -3,6 +3,7 @@ title: 'Celebrating a national treasure: the outstanding legacy of Professor Dex
 description: 'A profile of Professor Dexter Tagwireyi — pioneering toxicologist, academic, regulator and former DaTIS director — and the legacy he has built in Zimbabwe and beyond.'
 pubDate: 'Apr 24 2025'
 author: 'DATIS'
+heroImage: '../../assets/blog/celebrating_dexter_tagwirei.png'
 bulletin: 'DATIS Bulletin Magazine  05-2025.pdf'
 ---
 
