@@ -3,6 +3,7 @@ title: 'The impact of long working hours on pharmacists: balancing professional 
 description: 'Long shifts affect pharmacist stress, patient safety and personal health. This article reviews the evidence and outlines international best practices for a more sustainable working environment.'
 pubDate: 'Mar 20 2025'
 author: 'DATIS'
+heroImage: '../../assets/blog/long_working_hours.png'
 bulletin: 'DATIS Bulletin Magazine 03-2025.pdf'
 ---
 

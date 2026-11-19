@@ -3,6 +3,7 @@ title: 'Is pharmaceutical compounding a dying practice in Zimbabwe?'
 description: 'Compounding has declined in Zimbabwe and Southern Africa, but it remains essential for personalised care. Here are the challenges, the economics, and what could revive it.'
 pubDate: 'Mar 20 2025'
 author: 'DATIS'
+heroImage: '../../assets/blog/death_of_pharmaceutical_compounding_in_zimbabwe.png'
 bulletin: 'DATIS Bulletin Magazine 03-2025.pdf'
 ---
 

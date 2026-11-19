@@ -3,6 +3,7 @@ title: 'The role of AI in pharmacy practice'
 description: 'How artificial intelligence is reshaping patient care, inventory management, medication adherence and drug discovery in pharmacy — and the challenges that come with it.'
 pubDate: 'Jan 16 2025'
 author: 'DATIS'
+heroImage: '../../assets/blog/ai_in_pharmacy_practice.png'
 bulletin: 'DATIS Bulletin Magazine 01-2025.pdf'
 ---
 

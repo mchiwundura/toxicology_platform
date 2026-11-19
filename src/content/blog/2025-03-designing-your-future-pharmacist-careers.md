@@ -3,6 +3,7 @@ title: 'Designing your future: how pharmacists can apply life design principles 
 description: 'Borrowing from Designing Your Life by Bill Burnett and Dave Evans, this article shows pharmacists how to prototype career options, navigate change and build a more fulfilling professional life.'
 pubDate: 'Mar 20 2025'
 author: 'DATIS'
+heroImage: '../../assets/blog/life_design_principles.png'
 bulletin: 'DATIS Bulletin Magazine 03-2025.pdf'
 ---
 

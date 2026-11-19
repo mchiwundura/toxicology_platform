@@ -3,6 +3,7 @@ title: 'The psychology of money: lessons for pharmacists'
 description: 'Ten practical lessons from Morgan Housel''s The Psychology of Money, adapted for pharmacists building sustainable careers and pharmacy businesses.'
 pubDate: 'Jan 16 2025'
 author: 'DATIS'
+heroImage: '../../assets/blog/psychology_of_money.png'
 bulletin: 'DATIS Bulletin Magazine 01-2025.pdf'
 ---
 

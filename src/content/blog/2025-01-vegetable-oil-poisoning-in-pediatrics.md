@@ -3,6 +3,7 @@ title: 'Vegetable oil poisoning in paediatrics: a misguided remedy for baby coli
 description: 'Why vegetable oils are a risky home remedy for infant colic, the harm they can cause, and the evidence-based alternatives caregivers should use instead.'
 pubDate: 'Jan 16 2025'
 author: 'DATIS'
+heroImage: '../../assets/blog/vegetable_oil_poisoning.png'
 bulletin: 'DATIS Bulletin Magazine 01-2025.pdf'
 ---
 

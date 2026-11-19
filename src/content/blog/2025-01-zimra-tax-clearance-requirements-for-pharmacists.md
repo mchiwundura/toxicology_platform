@@ -3,6 +3,7 @@ title: 'Unpacking the new ZIMRA tax clearance requirements for pharmacists'
 description: 'What pharmacists need to know about the Tax Clearance Certificate now required for professional registration and licence renewal in Zimbabwe.'
 pubDate: 'Jan 16 2025'
 author: 'DATIS'
+heroImage: '../../assets/blog/zimra_tax_clearance_for_pharmacists.png'
 bulletin: 'DATIS Bulletin Magazine 01-2025.pdf'
 ---
 

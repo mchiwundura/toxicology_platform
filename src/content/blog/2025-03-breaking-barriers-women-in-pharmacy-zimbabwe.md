@@ -3,6 +3,7 @@ title: 'Breaking barriers: celebrating women in pharmacy in Zimbabwe'
 description: 'Women in Zimbabwe have moved pharmacy forward in academia, industry, regulation and community practice. This article celebrates their contributions and the work still needed.'
 pubDate: 'Mar 20 2025'
 author: 'DATIS'
+heroImage: '../../assets/blog/women_in_pharmacy.png'
 bulletin: 'DATIS Bulletin Magazine 03-2025.pdf'
 ---
 
