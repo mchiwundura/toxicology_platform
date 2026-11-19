@@ -5,6 +5,7 @@ import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import louisGadaga from '../assets/staff/louis_gadaga.jpg';
 import nicholasMuparadzi from '../assets/staff/nicholas_muparadzi.jpg';
+import christineMhizha from '../assets/staff/christine.jpeg';
 import shepardMhlaba from '../assets/staff/shepard_malaba.jpg';
 import tawanaKaremba from '../assets/staff/tawanashe_karemba.jpg';
 import { LINKEDIN_ICON, withBase } from '../consts';
@@ -133,6 +134,19 @@ const team = [
 		],
 		focus: ['Clinical pharmacology', 'Medicines information', 'Pharmacy education'],
 		links: [],
+	},
+	{
+	name: 'Ms Christine Mhizha',
+	role: 'Administrator and Research Assistant',
+		initials: 'CM',
+		photo: christineMhizha,
+		lead: false,
+		bio: [
+			'Christine Mhizha is an Administrator and Research Assistant at Datis. She holds a BSc in Medical Analytics and Informatics from the University of Zimbabwe and is currently pursuing a BSc in Optometry.',
+			'An active participant in healthcare hackathons, Christine enjoys solving real healthcare problems through innovation and teamwork. As part of her academic work, she developed a Chronic Kidney Disease Prediction System, which uses machine learning to support early detection and better patient outcomes.', 'She is passionate about improving patient health through data, machine learning and artificial intelligence, combining administrative coordination with research to drive data-driven, evidence-based healthcare.'
+		],
+		focus: ['Machine Learning', 'Medical Analytics', 'Innovation'],
+		links: [{label: 'LinkedIn', href: 'https://www.linkedin.com/in/christine-mhizha-62455a31a/'}],
 	},
 ];
 ---
